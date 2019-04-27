@@ -5,26 +5,28 @@ New tab is a minimal and customizable startpage for your new tabs.
 
 ## Screenshots
 
-
+![New Tab](https://imgur.com/GNbiQdl)
+![New Tab Preview](https://imgur.com/N8GhF92)
+![New Tab Settings](https://imgur.com/ua733G1)
 
 ## Installation
 
-1. Download ZIP.
-2. Extract the ZIP file.
-3. Screenshot the sites you'd like to show up in your new tab.  Be sure to use an identifiable file name when saving the screenshots (e.g. reddit.jpg).
-4. Put screenshots in the **images** folder.
-5. Go to [chrome://extensions](chrome://extensions).
-6. Toggle **Developer Mode** on.
-6. Click **Load unpacked**
-7. Browse to the new-tab folder.
+1. Download and extract ZIP file.
+2. Take screenshots of the sites you'd like to appear.
+   Save them to the **images** folder with an easily identifiable name (e.g. reddit.jpg).
+   Ideally, you will want all of your screenshots to share the same dimensions (width x height).
+3. Go to the Chrome Extensions settings ([chrome://extensions](chrome://extensions)).
+4. Turn on **Developer Mode**.
+5. Click **Load unpacked**
+6. Browse to the new-tab folder.
 
-## Settings
+You can now use New Tab, just open a new tab and click **SETTINGS** in the top right to add your site info.
 
-Click **SETTINGS** in the top right to choose the sites and add up to five (5) sites to your new tab.  The **image** field should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).
+Note that the **image** field should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).
 
 ## Coming Soon
 
 - Mobile support
 - More search engines
 - Weather
-- Handle site screenshots automatically
+- Automated screenshots
