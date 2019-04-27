@@ -1,0 +1,391 @@
+
+/* Main Styles */
+
+  @font-face {
+    font-family: "Poppins";
+    src: url("/Poppins-Regular.ttf");
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+
+    background: #222;
+
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    overflow: hidden;
+  }
+
+/* Top Bar */
+
+  .top_bar {
+    position: sticky;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 70px;
+
+    background: #111;
+  }
+
+  .search {
+    display: flex;
+    flex-direction: row;
+
+    width: 30%;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: #161616;
+
+    transition: .25s linear;
+  }
+
+    .search:hover {
+      background: #1a1a1a;
+    }
+
+    .search:focus-within {
+      border-color: #333;
+      background: #1a1a1a;
+    }
+
+  .search__input {
+    flex: 1;
+
+    padding: 10px 10px 10px 50px;
+
+    border: 0;
+    background: transparent;
+    color: #9e9e9e;
+
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: .7rem;
+    letter-spacing: 1px;
+    text-align: center;
+
+    outline: none;
+    cursor: pointer;
+  }
+
+    .search__input::placeholder {
+      color: #555;
+    }
+
+    .search__input:focus {
+      cursor: text;
+    }
+
+  .search__button {
+    width: 40px;
+
+    background:url('../images/search@2x.png') no-repeat 50% 13px;
+    background-size: 14px 12px;
+
+    opacity: .35;
+    transition: .35s linear;
+    cursor: pointer;
+  }
+
+    .search__button:hover {
+      opacity: 1;
+    }
+
+  .button--settings {
+    position: absolute;
+    right: 2rem;
+
+    color: #333;
+
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+  }
+
+    .button--settings:hover {
+      color: #555;
+      transition: .35s linear;
+    }
+
+/* Sites */
+
+  .sites {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 25px;
+    align-items: start;
+
+    margin: 25px;
+    padding: 0;
+  }
+
+  .thumbnail {
+    padding: 3px;
+
+    border: 1px solid #666;
+    border-radius: 10px;
+    background: #333;
+
+    transition: .35s linear;
+    cursor: pointer;
+  }
+
+  .thumbnail__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: relative;
+
+    border: 1px solid #666;
+    border-radius: 5px;
+
+    overflow: hidden;
+    transition: .35s linear;
+  }
+
+  .thumbnail__image {
+    display: block;
+
+    max-width: 100%;
+
+    filter: blur(0px);
+    transition: .35s linear;
+  }
+
+    .thumbnail__image:hover {
+      filter: blur(0px);
+    }
+
+    .sites:hover .thumbnail:not(:hover) .thumbnail__image {
+      filter: blur(5px);
+    }
+
+  .thumbnail__caption {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    padding: 5px;
+    border-radius: 5px;
+
+    background: rgba(0, 0, 0, .65);
+    color: rgba(255, 255, 255, .8);
+
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .35s linear;
+  }
+
+    .thumbnail:hover .thumbnail__caption {
+      opacity: 1;
+    }
+
+
+/* Previews */
+
+  .preview {
+    position: absolute;
+    top: calc(50vh - 5px);
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 500px;
+
+    overflow: hidden;
+  }
+
+  .preview__divider {
+    width: 0;
+    height: 5px;
+
+    transition: .25s linear;
+  }
+
+  .preview__image {
+    position: absolute;
+    top: 50vh;
+
+    max-width: 100%;
+
+    transition: .25s linear;
+  }
+
+/* Settings */
+
+  .settings {
+    visibility: hidden;
+    opacity: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: #111;
+    color: #ccc;
+
+    overflow: scroll;
+    transition: .35s linear;
+  }
+
+  .settings__wrapper {
+    width: 40%;
+    margin: 0 auto;
+  }
+
+  .site {
+    margin-bottom: 2rem;
+    padding: 2rem;
+  }
+
+  .site__heading {
+    margin: 0;
+  }
+
+  .site__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    margin-top: 2rem;
+  }
+
+    .site__wrapper:first-child { margin-top: 0; }
+
+  .site__heading {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .site__label {
+    flex: 1;
+  }
+
+  .site__input {
+    flex: 5;
+
+    padding: 10px;
+    border-radius: 5px;
+
+    border: 1px solid #161616;
+    background: #161616;
+    color: #9e9e9e;
+
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: .7rem;
+    letter-spacing: 1px;
+
+    outline: none;
+    transition: .25s linear;
+    cursor: pointer;
+  }
+
+    .site__input::placeholder {
+      color: #555;
+    }
+
+    .site__input:hover {
+      background: #1a1a1a;
+    }
+
+    .site__input:focus {
+      border-color: #333;
+      background: #1a1a1a;
+
+      cursor: text;
+    }
+
+    .site__input--error,
+    .site__input--error:focus {
+      border-color: #941919;
+    }
+
+  .site__wrapper--color {
+    flex: 5;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-top: 0;
+    border-radius: 5px;
+
+    border: 1px solid transparent;
+    background: #fff;
+
+    transition: .25s linear;
+  }
+
+    .site__wrapper--color:focus-within {
+      border: 1px solid #888;
+    }
+
+  .site__color {
+    display: block;
+
+    width: 100%;
+    height: 35px;
+
+    border: none;
+
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .settings__button {
+    display: block;
+
+    margin: 0 auto 2rem auto;
+    padding: 10px;
+    width: 100px;
+    border-radius: 5px;
+
+    border: 1px solid transparent;
+
+    text-align: center;
+
+    transition: .25s linear;
+    cursor: pointer;
+  }
+
+  .settings__button--save {
+    border-color: #444;
+    background: #333;
+    text-transform: uppercase;
+  }
+
+    .settings__button--save:hover {
+      background: #444;
+    }
+
+  .settings__button--close {
+    width: 35px;
+    padding: 0 0 1px 0;
+    border-radius: 0;
+  }
+
+    .settings__button--close:hover {
+      border-bottom: 2px solid #888;
+    }

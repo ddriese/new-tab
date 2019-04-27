@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <header class="top_bar">
+      <form class="search">
+        <input
+          class="search__input"
+          name="search__input"
+          type="text"
+          autocomplete="off"
+          spellcheckk="off"
+          placeholder="search">
+        <a class="search__button"></a>
+      </form>
+      <a class="button--settings" href="settings.html">Settings</a>
+    </header>
+
+    <main>
+      <template>
+        <div class="thumbnail">
+          <a class="thumbnail__link" href="">
+            <img class="thumbnail__image" src="" alt="">
+            <div class="thumbnail__caption"></div>
+          </a>
+        </div>
+      </template>
+
+      <section class="sites"></section>
+
+      <section class="preview">
+        <div class="preview__divider"></div>
+        <img class="preview__image" src="images/placeholder.png" alt="">
+      </section>
+    </main>
+
+    <section class="settings">
+      <div class="settings__wrapper">
+
+        <div class="site">
+          <h2 class="site__heading">Site One</h2>
+
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--name">Name:</label>
+            <input class="site__input site__input--name" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--url">URL:</label>
+            <input class="site__input site__input--url" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--image">Image:</label>
+            <input class="site__input site__input--image" type="text" required placeholder="e.g., reddit.jpg">
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--color">Color:</label>
+            <div class="site__wrapper site__wrapper--color">
+              <input class="site__color" type="color" name="" id="" value="#ffffff">
+            </div>
+          </div>
+        </div>
+
+        <div class="site">
+          <h2 class="site__heading">Site Two</h2>
+
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--name">Name:</label>
+            <input class="site__input site__input--name" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--url">URL:</label>
+            <input class="site__input site__input--url" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--image">Image:</label>
+            <input class="site__input site__input--image" type="text" required placeholder="e.g., reddit.jpg">
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--color">Color:</label>
+            <div class="site__wrapper site__wrapper--color">
+              <input class="site__color" type="color" name="" id="" value="#ffffff">
+            </div>
+          </div>
+        </div>
+
+        <div class="site">
+          <h2 class="site__heading">Site Three</h2>
+
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--name">Name:</label>
+            <input class="site__input site__input--name" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--url">URL:</label>
+            <input class="site__input site__input--url" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--image">Image:</label>
+            <input class="site__input site__input--image" type="text" required placeholder="e.g., reddit.jpg">
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--color">Color:</label>
+            <div class="site__wrapper site__wrapper--color">
+              <input class="site__color" type="color" name="" id="" value="#ffffff">
+            </div>
+          </div>
+        </div>
+
+        <div class="site">
+          <h2 class="site__heading">Site Four</h2>
+
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--name">Name:</label>
+            <input class="site__input site__input--name" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--url">URL:</label>
+            <input class="site__input site__input--url" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--image">Image:</label>
+            <input class="site__input site__input--image" type="text" required placeholder="e.g., reddit.jpg">
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--color">Color:</label>
+            <div class="site__wrapper site__wrapper--color">
+              <input class="site__color" type="color" name="" id="" value="#ffffff">
+            </div>
+          </div>
+        </div>
+
+        <div class="site">
+          <h2 class="site__heading">Site Five</h2>
+
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--name">Name:</label>
+            <input class="site__input site__input--name" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--url">URL:</label>
+            <input class="site__input site__input--url" type="text" required>
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--image">Image:</label>
+            <input class="site__input site__input--image" type="text" required placeholder="e.g., reddit.jpg">
+          </div>
+          <div class="site__wrapper">
+            <label class="site__label" for="site__input--color">Color:</label>
+            <div class="site__wrapper site__wrapper--color">
+              <input class="site__color" type="color" name="" id="" value="#ffffff">
+            </div>
+          </div>
+        </div>
+
+        <a class="settings__button settings__button--save">Save</a>
+
+        <a class="settings__button settings__button--close">Close</a>
+
+      </div>
+    </section>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

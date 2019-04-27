@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "New Tab",
+  "version": "1.0.0",
+  "description": "A minimal startpage for your new tabs.",
+  "author": "Dustin Driese",
+  "permissions": ["storage"],
+  "minimum_chrome_version": "41",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {}
+}
