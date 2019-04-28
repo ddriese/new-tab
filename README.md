@@ -18,13 +18,13 @@
 5. Click **Load unpacked**
 6. Browse to and select the **new-tab-master** folder.
 
-You can now use New Tab, just open a new tab and click **SETTINGS** in the top right to add your site info.
+You can now begin to use New Tab! Simply open a new tab and click **SETTINGS** in the top right to add your site info.
 
-Note that the **image** field should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).
+Note that the **image** field for each site should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).  Alternatively, you can link directly to an online image by pasting the entire image address in the field.
 
 ## Coming Soon
 
 - [ ] More search engines
-- [ ] Weather
+- [ ] Weather information
 - [ ] Light mode
 - [ ] Automated screenshots
