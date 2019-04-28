@@ -18,11 +18,12 @@ load_sites = () => {
                 thumbnail = site_template.querySelector('.thumbnail'),
                 thumbnail_link = site_template.querySelector('.thumbnail__link'),
                 preview_divider = document.querySelector('.preview__divider'),
-                preview_image = document.querySelector('.preview__image');
+                preview_image = document.querySelector('.preview__image'),
+                image_source = site.image.includes('://') ? site.image : 'images/' + site.image;
 
           thumbnail_link.href = site.url;
 
-          site_template.querySelector('.thumbnail__image').src = 'images/' + site.image;
+          site_template.querySelector('.thumbnail__image').src = image_source;
           site_template.querySelector('.thumbnail__image').alt = site.name;
 
           site_template.querySelector('.thumbnail__caption').innerText = site.name;
@@ -36,7 +37,7 @@ load_sites = () => {
 
             thumbnail_link.style.borderColor = site.color;
 
-            preview_image.src = 'images/' + site.image;
+            preview_image.src = image_source;
             preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
             preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
 
