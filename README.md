@@ -24,7 +24,7 @@ Note that the **image** field should contain the file name of screenshot you wan
 
 ## Coming Soon
 
-- [ ] Mobile support
 - [ ] More search engines
 - [ ] Weather
+- [ ] Light mode
 - [ ] Automated screenshots
