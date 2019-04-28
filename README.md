@@ -13,10 +13,8 @@ New tab is a minimal and customizable startpage for your new tabs.
 
 1. Download and extract ZIP file.
 2. Take screenshots of the sites you'd like to appear.
-
-  Save them to the **images** folder with an easily identifiable name (e.g. reddit.jpg).
-
-  Ideally, you will want all of your screenshots to share the same dimensions (width x height).
+    Save them to the **images** folder with an easily identifiable name (e.g. reddit.jpg).
+    Ideally, you will want all of your screenshots to share the same dimensions (width x height).
 3. Go to the Chrome Extensions settings ([chrome://extensions](chrome://extensions)).
 4. Turn on **Developer Mode**.
 5. Click **Load unpacked**
