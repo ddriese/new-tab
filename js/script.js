@@ -3,7 +3,7 @@ const search_input = document.querySelector('.search__input'),
 
 search = () => {
   let query = search_input.value.split(' ').join('+');
-  window.location.href = 'https://www.startpage.com/do/dsearch?query=' + query + '&cat=web&pl=opensearch&language=english';
+  window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
 },
 
 load_sites = () => {
@@ -19,7 +19,7 @@ load_sites = () => {
                 thumbnail_link = site_template.querySelector('.thumbnail__link'),
                 preview_divider = document.querySelector('.preview__divider'),
                 preview_image = document.querySelector('.preview__image'),
-                image_source = site.image.includes('://') ? site.image : 'images/' + site.image;
+                image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
 
           thumbnail_link.href = site.url;
 
