@@ -5,9 +5,9 @@
 
 ## Screenshots
 
-![New Tab](https://imgur.com/GNbiQdl.png)
-![New Tab Preview](https://imgur.com/mhZylqW.png)
-![New Tab Settings](https://imgur.com/ua733G1.png)
+![New Tab](https://imgur.com/44IiWSk.png)
+![New Tab Preview](https://imgur.com/IKy4SZj.png)
+![New Tab Settings](https://imgur.com/3ZNorBJ.png)
 
 ## Installation
 
