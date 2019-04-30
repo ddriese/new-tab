@@ -1,27 +1,70 @@
 
-const search_input = document.querySelector('.search__input'),
+const $search_input = document.querySelector('.search__input'),
 
 search = () => {
-  let query = search_input.value.split(' ').join('+');
+  let query = $search_input.value.split(' ').join('+');
   window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
+},
+
+load_weather = () => {
+  // Consider a static class in Settings class that gets the settings and returns result.new_tab_settings;
+  // Could then set settings = Settings.get(); in both load_weather and load_sites.
+
+  chrome.storage.local.get(['new_tab_settings'], result => {
+    const settings = result.new_tab_settings;
+
+    if (settings) {
+      if ('weather' in settings) {
+        if (settings.weather.enabled) {
+          const proxy = 'https://cors-anywhere.herokuapp.com/',
+                api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
+
+          fetch(api).then(response => {
+            return response.json();
+          }).then(data => {
+            const {icon, temperature, summary} = data.currently;
+
+            document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} ° F`;
+            document.querySelector('.weather__summary').textContent = summary;
+          });
+
+          // Load Settings
+          document.querySelector('#weather__toggle').checked = true;
+          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+          document.querySelector('.setting__input--key').value = settings.weather.key;
+        }
+        else {
+          document.querySelector('.weather__temperature').textContent = ``;
+          document.querySelector('.weather__summary').textContent = '';
+
+          // Load settings
+          document.querySelector('#weather__toggle').checked = false;
+          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+          document.querySelector('.setting__input--key').value = settings.weather.key;
+        }
+      }
+    }
+  });
 },
 
 load_sites = () => {
   chrome.storage.local.get(['new_tab_settings'], result => {
     const settings = result.new_tab_settings,
-          _site_template = document.querySelector('template');
+          $site_template = document.querySelector('template');
 
     if (settings) {
       if ('sites' in settings) {
         settings.sites.forEach((site, index) => {
-          const site_template = document.importNode(_site_template.content, true),
-                thumbnail = site_template.querySelector('.thumbnail'),
-                thumbnail_link = site_template.querySelector('.thumbnail__link'),
-                preview_divider = document.querySelector('.preview__divider'),
-                preview_image = document.querySelector('.preview__image'),
+          const site_template = document.importNode($site_template.content, true),
+                $thumbnail = site_template.querySelector('.thumbnail'),
+                $thumbnail_link = site_template.querySelector('.thumbnail__link'),
+                $preview_divider = document.querySelector('.preview__divider'),
+                $preview_image = document.querySelector('.preview__image'),
                 image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
 
-          thumbnail_link.href = site.url;
+          $thumbnail_link.href = site.url;
 
           site_template.querySelector('.thumbnail__image').src = image_source;
           site_template.querySelector('.thumbnail__image').alt = site.name;
@@ -31,42 +74,42 @@ load_sites = () => {
           document.querySelector('.sites').appendChild(site_template);
 
           // Animations
-          thumbnail.addEventListener('mouseover', () => {
-            thumbnail.style.borderColor = site.color;
-            thumbnail.style.backgroundColor = site.color;
+          $thumbnail.addEventListener('mouseover', () => {
+            $thumbnail.style.borderColor = site.color;
+            $thumbnail.style.backgroundColor = site.color;
 
-            thumbnail_link.style.borderColor = site.color;
+            $thumbnail_link.style.borderColor = site.color;
 
-            preview_image.src = image_source;
-            preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
-            preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
+            $preview_image.src = image_source;
+            $preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
+            $preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
 
-            preview_divider.style.backgroundColor = site.color;
-            preview_divider.style.width = '100%';
+            $preview_divider.style.backgroundColor = site.color;
+            $preview_divider.style.width = '100%';
           });
 
-          thumbnail.addEventListener('mouseout', () => {
-            thumbnail.style.borderColor = '#666';
-            thumbnail.style.backgroundColor = '#333';
-            thumbnail_link.style.borderColor = '#666';
+          $thumbnail.addEventListener('mouseout', () => {
+            $thumbnail.style.borderColor = '#666';
+            $thumbnail.style.backgroundColor = '#333';
+            $thumbnail_link.style.borderColor = '#666';
 
-            preview_image.style.transform = 'translateY(50vh)';
+            $preview_image.style.transform = 'translateY(50vh)';
 
-            preview_divider.style.width = '0';
+            $preview_divider.style.width = '0';
           });
 
           // Load Settings
-          document.querySelectorAll('.site')[index].querySelector('.site__input--name').value = site.name;
-          document.querySelectorAll('.site')[index].querySelector('.site__input--url').value = site.url;
-          document.querySelectorAll('.site')[index].querySelector('.site__input--image').value = site.image;
-          document.querySelectorAll('.site')[index].querySelector('.site__color').value = site.color;
+          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
+          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
+          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
+          document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
         });
 
-        document.querySelectorAll('.site__wrapper--color').forEach(color_container => {
-          color_container.style.backgroundColor = color_container.querySelector('.site__color').value;
+        document.querySelectorAll('.setting--color').forEach($color_container => {
+          $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
 
-          color_container.querySelector('.site__color').addEventListener('change', event => {
-            color_container.style.backgroundColor = event.target.value;
+          $color_container.querySelector('.setting__color').addEventListener('change', event => {
+            $color_container.style.backgroundColor = event.target.value;
           });
         });
       }
@@ -74,17 +117,17 @@ load_sites = () => {
   });
 },
 
-settings_panel = document.querySelector('.settings'),
+$settings_panel = document.querySelector('.settings'),
 
 show_settings = () => {
-    settings_panel.scrollTop = 0;
-    settings_panel.style.visibility = 'visible';
-    settings_panel.style.opacity = 1;
+    $settings_panel.scrollTop = 0;
+    $settings_panel.style.visibility = 'visible';
+    $settings_panel.style.opacity = 1;
 },
 
 close_settings = () => {
-  settings_panel.style.visibility = 'hidden';
-  settings_panel.style.opacity = 0;
+  $settings_panel.style.visibility = 'hidden';
+  $settings_panel.style.opacity = 0;
 },
 
 Settings = class {
@@ -92,18 +135,33 @@ Settings = class {
     this.sites = [];
   }
 
+  add_weather(weather) {
+    this.weather = weather;
+  }
+
   add_site(site) {
     this.sites = [...this.sites, site];
   }
 
   save() {
-    console.log(this);
+    // console.log(this);
+    // console.log(this.weather.enabled);
 
     chrome.storage.local.set({ new_tab_settings: this }, () => {
       document.querySelector('.sites').innerHTML = '';
+      load_weather();
       load_sites();
       close_settings();
     });
+  }
+},
+
+Weather = class {
+  constructor(enabled, latitude, longitude, key) {
+    this.enabled = enabled;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.key = key;
   }
 },
 
@@ -120,26 +178,50 @@ save_settings = () => {
   const settings = new Settings();
   let error = false;
 
-  document.querySelectorAll('.site__input--error').forEach(field => {
-    field.classList.remove('site__input--error');
+  document.querySelectorAll('.setting__input--error').forEach($field => {
+    $field.classList.remove('setting__input--error');
   });
 
-  document.querySelectorAll('.site').forEach(site => {
-    const fields = site.querySelectorAll('.site__input').length,
-          empty_fields = site.querySelectorAll('.site__input:invalid').length,
-          site_object = new Site(
-            site.querySelector('.site__input--name').value,
-            site.querySelector('.site__input--url').value,
-            site.querySelector('.site__input--image').value,
-            site.querySelector('.site__color').value
+  const $weather_settings = document.querySelector('.settings__weather'),
+        empty_fields = $weather_settings.querySelectorAll('.setting__input:invalid').length,
+        weather = new Weather(
+          document.querySelector('#weather__toggle').checked,
+          $weather_settings.querySelector('.setting__input--latitude').value,
+          $weather_settings.querySelector('.setting__input--longitude').value,
+          $weather_settings.querySelector('.setting__input--key').value,
+        );
+
+  if (document.querySelector('#weather__toggle').checked) {
+    if (!empty_fields) {
+      settings.add_weather(weather);
+    }
+    else {
+      $weather_settings.querySelectorAll('.setting__input:invalid').forEach(field => {
+        field.classList.add('setting__input--error');
+      });
+      error = true;
+    }
+  }
+  else {
+    settings.add_weather(weather);
+  }
+
+  document.querySelectorAll('.settings__site').forEach($site_settings => {
+    const fields = $site_settings.querySelectorAll('.setting__input').length,
+          empty_fields = $site_settings.querySelectorAll('.setting__input:invalid').length,
+          site = new Site(
+            $site_settings.querySelector('.setting__input--name').value,
+            $site_settings.querySelector('.setting__input--url').value,
+            $site_settings.querySelector('.setting__input--image').value,
+            $site_settings.querySelector('.setting__color').value
           );
 
     if (!empty_fields) {
-      settings.add_site(site_object);
+      settings.add_site(site);
     }
     else if (empty_fields > 0 && empty_fields < fields) {
-      site.querySelectorAll('.site__input:invalid').forEach(field => {
-        field.classList.add('site__input--error');
+      $site_settings.querySelectorAll('.setting__input:invalid').forEach(field => {
+        field.classList.add('setting__input--error');
       });
       error = true;
     }
@@ -149,8 +231,8 @@ save_settings = () => {
     settings.save();
   }
   else {
-    settings_panel.scrollTo({
-      top: settings_panel.offsetTop + document.querySelector('.site__input--error').offsetTop - 50,
+    $settings_panel.scrollTo({
+      top: $settings_panel.offsetTop + document.querySelector('.setting__input--error').offsetTop - 50,
       left: 0,
       behavior: 'smooth'
     });
@@ -159,18 +241,19 @@ save_settings = () => {
 
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', event => {
+  load_weather();
   load_sites();
 
   // Search Startpage
-  search_input.addEventListener('focus', (event) => {
+  $search_input.addEventListener('focus', (event) => {
     event.target.placeholder = '';
   });
 
-  search_input.addEventListener('blur', event => {
+  $search_input.addEventListener('blur', event => {
     event.target.placeholder = 'search';
   });
 
-  search_input.addEventListener('keydown', (key_pressed) => {
+  $search_input.addEventListener('keydown', (key_pressed) => {
     if (key_pressed.keyCode == 13) {
       key_pressed.preventDefault();
       search();
@@ -194,7 +277,7 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   document.addEventListener('keydown', (key_pressed) => {
-    if (key_pressed.target.classList.contains('site__input')) {
+    if (key_pressed.target.classList.contains('setting__input')) {
       if (key_pressed.keyCode == 13) {
         key_pressed.preventDefault();
         save_settings();

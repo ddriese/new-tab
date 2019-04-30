@@ -42,6 +42,19 @@
     background: #111;
   }
 
+  .weather {
+    position: absolute;
+    left: 2rem;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+    color: #444;
+
+    cursor: default;
+  }
+
   .search {
     display: flex;
     flex-direction: row;
@@ -252,21 +265,65 @@
     transition: .35s linear;
   }
 
+    .settings a { color: #ccc; }
+
   .settings__wrapper {
     width: 40%;
     margin: 0 auto;
   }
 
-  .site {
+  .settings__weather,
+  .settings__site {
     margin-bottom: 2rem;
     padding: 2rem;
   }
 
-  .site__heading {
-    margin: 0;
+  #weather__toggle {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+
+    border: 0;
+
+    overflow: hidden;
+    clip: rect(0 0 0 0);
   }
 
-  .site__wrapper {
+  .weather__switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    background-color: #222;
+    border-radius: 25px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .weather__switch::after {
+    content: '';
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    border-radius: 23px;
+    background-color: #fff;
+    top: 1px;
+    left: 1px;
+    transition: all 0.3s;
+  }
+
+  #weather__toggle:checked + .weather__switch::after {
+    transform: translateX(25px);
+  }
+
+  #weather__toggle:checked + .weather__switch {
+    background-color: #72c355;
+  }
+
+  .setting {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -274,18 +331,23 @@
     margin-top: 2rem;
   }
 
-    .site__wrapper:first-child { margin-top: 0; }
+    .setting:first-child { margin-top: 0; }
 
-  .site__heading {
+    .setting--weather { justify-content: space-between; }
+
+    .weather__wrapper { display: flex; justify-content: center; }
+
+  .settings__heading {
+    margin: 0;
     text-transform: uppercase;
     letter-spacing: 2px;
   }
 
-  .site__label {
+  .setting__label {
     flex: 1;
   }
 
-  .site__input {
+  .setting__input {
     flex: 5;
 
     padding: 10px;
@@ -304,27 +366,27 @@
     cursor: pointer;
   }
 
-    .site__input::placeholder {
+    .setting__input::placeholder {
       color: #555;
     }
 
-    .site__input:hover {
+    .setting__input:hover {
       background: #1a1a1a;
     }
 
-    .site__input:focus {
+    .setting__input:focus {
       border-color: #333;
       background: #1a1a1a;
 
       cursor: text;
     }
 
-    .site__input--error,
-    .site__input--error:focus {
+    .setting__input--error,
+    .setting__input--error:focus {
       border-color: #941919;
     }
 
-  .site__wrapper--color {
+  .setting--color {
     flex: 5;
     align-items: center;
     justify-content: flex-start;
@@ -338,11 +400,11 @@
     transition: .25s linear;
   }
 
-    .site__wrapper--color:focus-within {
+    .setting--color:focus-within {
       border: 1px solid #888;
     }
 
-  .site__color {
+  .setting__color {
     display: block;
 
     width: 100%;
