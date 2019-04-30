@@ -108,7 +108,7 @@
   .search__button {
     width: 40px;
 
-    background:url('../images/search@2x.png') no-repeat 50% 12px;
+    background:url('../images/ui/search@2x.png') no-repeat 50% 12px;
     background-size: 14px 12px;
 
     opacity: .35;

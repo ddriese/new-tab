@@ -62,7 +62,7 @@ load_sites = () => {
                 $thumbnail_link = site_template.querySelector('.thumbnail__link'),
                 $preview_divider = document.querySelector('.preview__divider'),
                 $preview_image = document.querySelector('.preview__image'),
-                image_source = site.image.includes('://') ? site.image : `images/screenshots/${site.image}`;
+                image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
 
           $thumbnail_link.href = site.url;
 
@@ -265,7 +265,7 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Show Settings
-  document.querySelector('.button--settings').addEventListener('click', (event) => {
+  document.querySelector('.settings__button--open').addEventListener('click', (event) => {
     event.preventDefault();
     show_settings();
   });

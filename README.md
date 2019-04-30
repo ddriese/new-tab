@@ -12,7 +12,7 @@
 ## Installation
 
 1. Download and extract ZIP file.
-2. Take screenshots of the sites you'd like to appear and save them to the **screenshots** folder found in the images folder.  Be sure to use an easily identifiable name (e.g. reddit.jpg).  Ideally, you will want all of your screenshots to share the same dimensions (width x height).
+2. Take screenshots of the sites you'd like to appear and save them to the **images** folder using an easily identifiable name (e.g. reddit.jpg).  Ideally, you will want all of your screenshots to share the same dimensions (width x height).
 3. Go to the Chrome Extensions settings (<a href="chrome://extensions" target="_blank">chrome://extensions</a>).
 4. Turn on **Developer Mode**.
 5. Click **Load unpacked**
