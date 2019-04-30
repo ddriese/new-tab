@@ -25,6 +25,5 @@ Note that the **image** field for each site should contain the file name of scre
 ## Coming Soon
 
 - [ ] More search engines
-- [ ] Weather information
 - [ ] Light mode
 - [ ] Automated screenshots
