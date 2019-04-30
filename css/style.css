@@ -52,6 +52,8 @@
 
     color: #444;
 
+    letter-spacing: .5px;
+
     cursor: default;
   }
 
@@ -106,7 +108,7 @@
   .search__button {
     width: 40px;
 
-    background:url('../images/search@2x.png') no-repeat 50% 13px;
+    background:url('../images/search@2x.png') no-repeat 50% 12px;
     background-size: 14px 12px;
 
     opacity: .35;
@@ -116,22 +118,6 @@
 
     .search__button:hover {
       opacity: 1;
-    }
-
-  .button--settings {
-    position: absolute;
-    right: 2rem;
-
-    color: #333;
-
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 1px;
-  }
-
-    .button--settings:hover {
-      color: #555;
-      transition: .35s linear;
     }
 
 /* Sites */
@@ -240,6 +226,7 @@
     position: absolute;
     top: 50vh;
 
+    min-width: 100%;
     max-width: 100%;
 
     transition: .25s linear;
@@ -431,6 +418,23 @@
     transition: .25s linear;
     cursor: pointer;
   }
+
+  .settings__button--open {
+    position: absolute;
+    right: 2rem;
+
+    margin: 5px 0 0 0;
+    padding: 0;
+    width: auto;
+
+    opacity: .25;
+  }
+
+    .settings__button--open:hover {
+      opacity: .5;
+    }
+
+  .settings__icon { width: 15px; }
 
   .settings__button--save {
     border-color: #444;

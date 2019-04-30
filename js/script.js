@@ -24,7 +24,7 @@ load_weather = () => {
           }).then(data => {
             const {icon, temperature, summary} = data.currently;
 
-            document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} ° F`;
+            document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} °`;
             document.querySelector('.weather__summary').textContent = summary;
           });
 
@@ -62,7 +62,7 @@ load_sites = () => {
                 $thumbnail_link = site_template.querySelector('.thumbnail__link'),
                 $preview_divider = document.querySelector('.preview__divider'),
                 $preview_image = document.querySelector('.preview__image'),
-                image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
+                image_source = site.image.includes('://') ? site.image : `images/screenshots/${site.image}`;
 
           $thumbnail_link.href = site.url;
 
@@ -289,6 +289,10 @@ window.addEventListener('DOMContentLoaded', event => {
   document.querySelector('.settings__button--close').addEventListener('click', (event) => {
     event.preventDefault();
     close_settings();
+  });
+
+  $settings_panel.addEventListener('click', (event) => {
+    if (event.target == $settings_panel) { close_settings(); }
   });
 
   document.addEventListener('keydown', (key_pressed) => {
