@@ -16,6 +16,8 @@ load_weather = () => {
           const proxy = 'https://cors-anywhere.herokuapp.com/',
                 api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
 
+          document.querySelector('.weather__temperature').textContent = 'Checking weather...';
+
           fetch(api).then(response => {
             return response.json();
           }).then(data => {
