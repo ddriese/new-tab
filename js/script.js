@@ -7,9 +7,6 @@ search = () => {
 },
 
 load_weather = () => {
-  // Consider a static class in Settings class that gets the settings and returns result.new_tab_settings;
-  // Could then set settings = Settings.get(); in both load_weather and load_sites.
-
   chrome.storage.local.get(['new_tab_settings'], result => {
     const settings = result.new_tab_settings;
 
@@ -144,9 +141,6 @@ Settings = class {
   }
 
   save() {
-    // console.log(this);
-    // console.log(this.weather.enabled);
-
     chrome.storage.local.set({ new_tab_settings: this }, () => {
       document.querySelector('.sites').innerHTML = '';
       load_weather();
