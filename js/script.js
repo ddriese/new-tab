@@ -35,7 +35,7 @@ load_weather = () => {
           document.querySelector('.setting__input--key').value = settings.weather.key;
         }
         else {
-          document.querySelector('.weather__temperature').textContent = ``;
+          document.querySelector('.weather__temperature').textContent = '';
           document.querySelector('.weather__summary').textContent = '';
 
           // Load settings
