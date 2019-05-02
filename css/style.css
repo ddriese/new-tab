@@ -124,16 +124,15 @@
 
   .sites {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 25px;
-    align-items: start;
+    justify-content: center;
 
     margin: 25px;
     padding: 0;
   }
 
   .thumbnail {
-    padding: 3px;
+    padding: 2px;
 
     border: 1px solid #666;
     border-radius: 10px;
@@ -151,7 +150,7 @@
     position: relative;
 
     border: 1px solid #666;
-    border-radius: 5px;
+    border-radius: 8px;
 
     overflow: hidden;
     transition: .35s linear;

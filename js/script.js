@@ -70,6 +70,10 @@ load_sites = () => {
 
           site_template.querySelector('.thumbnail__caption').innerText = site.name;
 
+          if (index + 1 <= 5) {
+            document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 20px))`;
+          }
+
           document.querySelector('.sites').appendChild(site_template);
 
           // Animations
