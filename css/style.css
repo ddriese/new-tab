@@ -438,14 +438,23 @@
     margin: 5px 0 0 0;
     padding: 0;
 
-    opacity: .25;
+    opacity: .5;
   }
 
     .settings__button--open:hover {
-      opacity: .5;
+      opacity: .75;
     }
 
-  .settings__icon { width: 15px; }
+  .settings__icon {
+    width: 15px;
+
+    transform: rotateZ(-720deg);
+    transition: var(--transition);
+  }
+
+    .settings__icon:hover {
+      transform: rotateZ(720deg);
+     }
 
   .settings__button--save {
     border-color: #444;
