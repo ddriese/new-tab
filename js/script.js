@@ -6,118 +6,111 @@ search = () => {
   window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
 },
 
-load_weather = () => {
-  chrome.storage.local.get(['new_tab_settings'], result => {
-    const settings = result.new_tab_settings;
+load_weather = (settings) => {
+  if (settings) {
+    if ('weather' in settings) {
+      if (settings.weather.enabled) {
+        const proxy = 'https://cors-anywhere.herokuapp.com/',
+              api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
 
-    if (settings) {
-      if ('weather' in settings) {
-        if (settings.weather.enabled) {
-          const proxy = 'https://cors-anywhere.herokuapp.com/',
-                api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
+        document.querySelector('.weather__temperature').textContent = 'Checking weather...';
 
-          document.querySelector('.weather__temperature').textContent = 'Checking weather...';
+        fetch(api).then(response => {
+          return response.json();
+        }).then(data => {
+          const {icon, temperature, summary} = data.currently;
 
-          fetch(api).then(response => {
-            return response.json();
-          }).then(data => {
-            const {icon, temperature, summary} = data.currently;
+          document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} °`;
+          document.querySelector('.weather__summary').textContent = summary;
+        });
 
-            document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} °`;
-            document.querySelector('.weather__summary').textContent = summary;
-          });
+        // Display settings in Settings Panel
+        document.querySelector('#weather__toggle').checked = true;
+        document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+        document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+        document.querySelector('.setting__input--key').value = settings.weather.key;
+      }
+      else {
+        document.querySelector('.weather__temperature').textContent = '';
+        document.querySelector('.weather__summary').textContent = '';
 
-          // Load Settings
-          document.querySelector('#weather__toggle').checked = true;
-          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-          document.querySelector('.setting__input--key').value = settings.weather.key;
-        }
-        else {
-          document.querySelector('.weather__temperature').textContent = '';
-          document.querySelector('.weather__summary').textContent = '';
-
-          // Load settings
-          document.querySelector('#weather__toggle').checked = false;
-          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-          document.querySelector('.setting__input--key').value = settings.weather.key;
-        }
+        // Display settings in Settings Panel
+        document.querySelector('#weather__toggle').checked = false;
+        document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+        document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+        document.querySelector('.setting__input--key').value = settings.weather.key;
       }
     }
-  });
+  }
 },
 
-load_sites = () => {
-  chrome.storage.local.get(['new_tab_settings'], result => {
-    const settings = result.new_tab_settings,
-          $site_template = document.querySelector('template');
+load_sites = (settings) => {
+  const $site_template = document.querySelector('template');
 
-    if (settings) {
-      if ('sites' in settings) {
-        settings.sites.forEach((site, index) => {
-          const site_template = document.importNode($site_template.content, true),
-                $thumbnail = site_template.querySelector('.thumbnail'),
-                $thumbnail_link = site_template.querySelector('.thumbnail__link'),
-                $preview_divider = document.querySelector('.preview__divider'),
-                $preview_image = document.querySelector('.preview__image'),
-                image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
+  if (settings) {
+    if ('sites' in settings) {
+      settings.sites.forEach((site, index) => {
+        const site_template = document.importNode($site_template.content, true),
+              $thumbnail = site_template.querySelector('.thumbnail'),
+              $thumbnail_link = site_template.querySelector('.thumbnail__link'),
+              $preview_divider = document.querySelector('.preview__divider'),
+              $preview_image = document.querySelector('.preview__image'),
+              image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
 
-          $thumbnail_link.href = site.url;
+        $thumbnail_link.href = site.url;
 
-          site_template.querySelector('.thumbnail__image').src = image_source;
-          site_template.querySelector('.thumbnail__image').alt = site.name;
+        site_template.querySelector('.thumbnail__image').src = image_source;
+        site_template.querySelector('.thumbnail__image').alt = site.name;
 
-          site_template.querySelector('.thumbnail__caption').innerText = site.name;
+        site_template.querySelector('.thumbnail__caption').innerText = site.name;
 
-          if (index + 1 <= 5) {
-            document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 20px))`;
-          }
+        if (index + 1 <= 5) {
+          document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 20px))`;
+        }
 
-          document.querySelector('.sites').appendChild(site_template);
+        document.querySelector('.sites').appendChild(site_template);
 
-          // Animations
-          $thumbnail.addEventListener('mouseover', () => {
-            $thumbnail.style.borderColor = site.color;
-            $thumbnail.style.backgroundColor = site.color;
+        // Animations
+        $thumbnail.addEventListener('mouseover', () => {
+          $thumbnail.style.borderColor = site.color;
+          $thumbnail.style.backgroundColor = site.color;
 
-            $thumbnail_link.style.borderColor = site.color;
+          $thumbnail_link.style.borderColor = site.color;
 
-            $preview_image.src = image_source;
-            $preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
-            $preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
+          $preview_image.src = image_source;
+          $preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
+          $preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
 
-            $preview_divider.style.backgroundColor = site.color;
-            $preview_divider.style.width = '100%';
-          });
-
-          $thumbnail.addEventListener('mouseout', () => {
-            $thumbnail.style.borderColor = '#666';
-            $thumbnail.style.backgroundColor = '#333';
-            $thumbnail_link.style.borderColor = '#666';
-
-            $preview_image.style.transform = 'translateY(50vh)';
-
-            $preview_divider.style.width = '0';
-          });
-
-          // Load Settings
-          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
-          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
-          document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
-          document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
+          $preview_divider.style.backgroundColor = site.color;
+          $preview_divider.style.width = '100%';
         });
 
-        document.querySelectorAll('.setting--color').forEach($color_container => {
-          $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
+        $thumbnail.addEventListener('mouseout', () => {
+          $thumbnail.style.borderColor = '#666';
+          $thumbnail.style.backgroundColor = '#333';
+          $thumbnail_link.style.borderColor = '#666';
 
-          $color_container.querySelector('.setting__color').addEventListener('change', event => {
-            $color_container.style.backgroundColor = event.target.value;
-          });
+          $preview_image.style.transform = 'translateY(50vh)';
+
+          $preview_divider.style.width = '0';
         });
-      }
+
+        // Display settings in Settings Panel
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
+      });
+
+      document.querySelectorAll('.setting--color').forEach($color_container => {
+        $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
+
+        $color_container.querySelector('.setting__color').addEventListener('change', event => {
+          $color_container.style.backgroundColor = event.target.value;
+        });
+      });
     }
-  });
+  }
 },
 
 $settings_panel = document.querySelector('.settings'),
@@ -149,9 +142,18 @@ Settings = class {
   save() {
     chrome.storage.local.set({ new_tab_settings: this }, () => {
       document.querySelector('.sites').innerHTML = '';
-      load_weather();
-      load_sites();
-      close_settings();
+      Settings.load((settings) => {
+        load_weather(settings);
+        load_sites(settings);
+        close_settings();
+      });
+    });
+  }
+
+  static load(callback) {
+    chrome.storage.local.get(['new_tab_settings'], result => {
+      const settings = result.new_tab_settings;
+      callback(settings);
     });
   }
 },
@@ -241,8 +243,10 @@ save_settings = () => {
 
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', event => {
-  load_weather();
-  load_sites();
+  Settings.load((settings) => {
+    load_weather(settings);
+    load_sites(settings);
+  });
 
   // Search Startpage
   $search_input.addEventListener('focus', (event) => {
