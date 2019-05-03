@@ -1,6 +1,10 @@
 
 /* Main Styles */
 
+  :root {
+    --transition: .25s linear;
+  }
+
   @font-face {
     font-family: "Poppins";
     src: url("/Poppins-Regular.ttf");
@@ -67,7 +71,7 @@
     border-radius: 5px;
     background: #161616;
 
-    transition: .25s linear;
+    transition: var(--transition);
   }
 
     .search:hover {
@@ -108,11 +112,10 @@
   .search__button {
     width: 40px;
 
-    background:url('../images/ui/search@2x.png') no-repeat 50% 12px;
-    background-size: 14px 12px;
+    background: url('/images/ui/search.svg') no-repeat 50% 12px;
 
     opacity: .35;
-    transition: .35s linear;
+    transition: var(--transition);
     cursor: pointer;
   }
 
@@ -138,7 +141,7 @@
     border-radius: 10px;
     background: #333;
 
-    transition: .35s linear;
+    transition: var(--transition);
     cursor: pointer;
   }
 
@@ -153,7 +156,7 @@
     border-radius: 8px;
 
     overflow: hidden;
-    transition: .35s linear;
+    transition: var(--transition);
   }
 
   .thumbnail__image {
@@ -162,7 +165,7 @@
     max-width: 100%;
 
     filter: blur(0px);
-    transition: .35s linear;
+    transition: var(--transition);
   }
 
     .thumbnail__image:hover {
@@ -191,7 +194,7 @@
 
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: .35s linear;
+    transition: var(--transition);
   }
 
     .thumbnail:hover .thumbnail__caption {
@@ -218,7 +221,7 @@
     width: 0;
     height: 5px;
 
-    transition: .25s linear;
+    transition: var(--transition);
   }
 
   .preview__image {
@@ -228,7 +231,7 @@
     min-width: 100%;
     max-width: 100%;
 
-    transition: .25s linear;
+    transition: var(--transition);
   }
 
 /* Settings */
@@ -248,7 +251,8 @@
     color: #ccc;
 
     overflow: scroll;
-    transition: .35s linear;
+    scroll-behavior: smooth;
+    transition: var(--transition);
   }
 
     .settings a { color: #ccc; }
@@ -280,25 +284,33 @@
 
   .weather__switch {
     position: relative;
+
     display: inline-block;
+
     width: 50px;
     height: 25px;
-    background-color: #222;
     border-radius: 25px;
-    transition: all 0.3s;
+
+    background-color: #222;
+
+    transition: var(--transition);
     cursor: pointer;
   }
 
   .weather__switch::after {
-    content: '';
     position: absolute;
+    top: 1px;
+    left: 1px;
+
     width: 23px;
     height: 23px;
     border-radius: 23px;
+
     background-color: #fff;
-    top: 1px;
-    left: 1px;
-    transition: all 0.3s;
+
+    content: '';
+
+    transition: var(--transition);
   }
 
   #weather__toggle:checked + .weather__switch::after {
@@ -348,7 +360,7 @@
     letter-spacing: 1px;
 
     outline: none;
-    transition: .25s linear;
+    transition: var(--transition);
     cursor: pointer;
   }
 
@@ -383,7 +395,7 @@
     border: 1px solid transparent;
     background: #fff;
 
-    transition: .25s linear;
+    transition: var(--transition);
   }
 
     .setting--color:focus-within {
@@ -405,16 +417,16 @@
   .settings__button {
     display: block;
 
+    width: 100px;
     margin: 0 auto 2rem auto;
     padding: 10px;
-    width: 100px;
     border-radius: 5px;
 
     border: 1px solid transparent;
 
     text-align: center;
 
-    transition: .25s linear;
+    transition: var(--transition);
     cursor: pointer;
   }
 
@@ -422,9 +434,9 @@
     position: absolute;
     right: 2rem;
 
+    width: auto;
     margin: 5px 0 0 0;
     padding: 0;
-    width: auto;
 
     opacity: .25;
   }
@@ -438,7 +450,9 @@
   .settings__button--save {
     border-color: #444;
     background: #333;
+
     text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
     .settings__button--save:hover {
@@ -446,11 +460,28 @@
     }
 
   .settings__button--close {
-    width: 35px;
-    padding: 0 0 1px 0;
+    width: fit-content;
+    padding: 0;
     border-radius: 0;
+
+    border: 0;
+    border-bottom: 1px solid transparent;
+
+    text-transform: uppercase;
   }
 
     .settings__button--close:hover {
-      border-bottom: 2px solid #888;
+      border-bottom: 1px solid #888;
     }
+
+/* Reduced Motion Support */
+
+  @media ( prefers-reduced-motion: reduce ) {
+    :root {
+      --transition: 0s;
+    }
+
+    .settings {
+      scroll-behavior: auto;
+    }
+  }

@@ -116,7 +116,6 @@ load_sites = (settings) => {
 $settings_panel = document.querySelector('.settings'),
 
 show_settings = () => {
-    $settings_panel.scrollTop = 0;
     $settings_panel.style.visibility = 'visible';
     $settings_panel.style.opacity = 1;
 },
@@ -124,6 +123,7 @@ show_settings = () => {
 close_settings = () => {
   $settings_panel.style.visibility = 'hidden';
   $settings_panel.style.opacity = 0;
+  setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
 },
 
 Settings = class {
@@ -233,11 +233,7 @@ save_settings = () => {
     settings.save();
   }
   else {
-    $settings_panel.scrollTo({
-      top: $settings_panel.offsetTop + document.querySelector('.setting__input--error').offsetTop - 50,
-      left: 0,
-      behavior: 'smooth'
-    });
+    $settings_panel.scrollTop = $settings_panel.offsetTop + document.querySelector('.setting__input--error').offsetTop - 50;
   }
 };
 
