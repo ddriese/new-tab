@@ -49,6 +49,14 @@
     background: #111;
   }
 
+  .top_bar__wrapper {
+    flex: 1;
+  }
+
+  .top_bar__wrapper--settings {
+    text-align: right;
+  }
+
   .weather {
     display: flex;
     flex-flow: column;
@@ -81,7 +89,7 @@
     display: flex;
     flex-direction: row;
 
-    width: 30%;
+    width: 100%;
 
     border: .1rem solid transparent;
     border-radius: .5rem;
@@ -452,6 +460,8 @@
   }
 
   .settings__button--open {
+    display: inline-block;
+
     width: 1.5rem;
     height: 1.5rem;
     margin: 0;

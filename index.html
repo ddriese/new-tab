@@ -10,23 +10,27 @@
 
   <body>
     <header class="top_bar">
-      <div class="weather">
-        <div class="weather__temperature"></div>
-        <div class="weather__summary"></div>
+      <div class="top_bar__wrapper">
+        <div class="weather">
+          <div class="weather__temperature"></div>
+          <div class="weather__summary"></div>
+        </div>
       </div>
-
-      <form class="search">
-        <input
-          class="search__input"
-          name="search__input"
-          type="text"
-          autocomplete="off"
-          spellcheckk="off"
-          placeholder="search">
-        <a class="search__button"></a>
-      </form>
-
-      <a class="settings__button settings__button--open" href="settings.html"><img class="settings__icon" src="images/ui/settings.svg"></a>
+      <div class="top_bar__wrapper top_bar__wrapper--search">
+        <form class="search">
+          <input
+            class="search__input"
+            name="search__input"
+            type="text"
+            autocomplete="off"
+            spellcheckk="off"
+            placeholder="search">
+          <a class="search__button"></a>
+        </form>
+      </div>
+      <div class="top_bar__wrapper top_bar__wrapper--settings">
+        <a class="settings__button settings__button--open" href="settings.html"><img class="settings__icon" src="images/ui/settings.svg"></a>
+      </div>
     </header>
 
     <main>
