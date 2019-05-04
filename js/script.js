@@ -10,18 +10,31 @@ load_weather = (settings) => {
   if (settings) {
     if ('weather' in settings) {
       if (settings.weather.enabled) {
-        const proxy = 'https://cors-anywhere.herokuapp.com/',
-              api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
+        const $loading_icon = document.createElement('img'),
+              proxy = 'https://cors-anywhere.herokuapp.com/',
+              api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`,
+              $weather_temperature = document.querySelector('.weather__temperature'),
+              $weather_summary = document.querySelector('.weather__summary');
 
-        document.querySelector('.weather__temperature').innerHTML = '<img class="weather__loading" src="images/ui/loading.svg">';
+        $loading_icon.classList.add('weather__loading');
+        $loading_icon.src = 'images/ui/loading.svg';
+
+        document.querySelector('.weather').appendChild($loading_icon);
 
         fetch(api).then(response => {
           return response.json();
         }).then(data => {
           const {icon, temperature, summary} = data.currently;
 
-          document.querySelector('.weather__temperature').textContent = `${Math.round(temperature)} °`;
-          document.querySelector('.weather__summary').textContent = summary;
+          $loading_icon.remove();
+
+          $weather_temperature.textContent = `${Math.round(temperature)} °`;
+          $weather_temperature.style.visibility = 'visible';
+          $weather_temperature.style.opacity = 1;
+
+          $weather_summary.textContent = summary;
+          $weather_summary.style.visibility = 'visible';
+          $weather_summary.style.opacity = 1;
         });
 
         // Display settings in Settings Panel
@@ -31,8 +44,8 @@ load_weather = (settings) => {
         document.querySelector('.setting__input--key').value = settings.weather.key;
       }
       else {
-        document.querySelector('.weather__temperature').textContent = '';
-        document.querySelector('.weather__summary').textContent = '';
+        $weather_temperature.textContent = '';
+        $weather_summary.textContent = '';
 
         // Display settings in Settings Panel
         document.querySelector('#weather__toggle').checked = false;
@@ -74,6 +87,10 @@ load_sites = (settings) => {
         $thumbnail.addEventListener('mouseover', () => {
           const siblings = Array.from($thumbnail.parentNode.children).filter(el => el !== $thumbnail);
 
+          siblings.forEach(($sibling) => {
+            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
+          });
+
           $thumbnail.style.borderColor = site.color;
           $thumbnail.style.backgroundColor = site.color;
 
@@ -85,10 +102,6 @@ load_sites = (settings) => {
 
           $preview_divider.style.backgroundColor = site.color;
           $preview_divider.style.width = '100%';
-
-          siblings.forEach(($sibling) => {
-            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
-          });
         });
 
         $thumbnail.addEventListener('mouseout', () => {
