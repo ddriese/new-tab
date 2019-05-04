@@ -61,6 +61,20 @@
     cursor: default;
   }
 
+  .weather__loading {
+    animation: spin 2s infinite linear;
+    opacity: .8;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
   .search {
     display: flex;
     flex-direction: row;

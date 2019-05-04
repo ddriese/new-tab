@@ -13,7 +13,7 @@ load_weather = (settings) => {
         const proxy = 'https://cors-anywhere.herokuapp.com/',
               api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`;
 
-        document.querySelector('.weather__temperature').textContent = 'Checking weather...';
+        document.querySelector('.weather__temperature').innerHTML = '<img class="weather__loading" src="images/ui/loading.svg">';
 
         fetch(api).then(response => {
           return response.json();
