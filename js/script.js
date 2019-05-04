@@ -65,7 +65,7 @@ load_sites = (settings) => {
         site_template.querySelector('.thumbnail__caption').innerText = site.name;
 
         if (index + 1 <= 5) {
-          document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 20px))`;
+          document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 2rem))`;
         }
 
         document.querySelector('.sites').appendChild(site_template);
@@ -79,7 +79,7 @@ load_sites = (settings) => {
 
           $preview_image.src = image_source;
           $preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
-          $preview_image.style.transform = 'translateY(calc(-50vh + 5px)';
+          $preview_image.style.transform = 'translateY(calc(-50vh + .5rem)';
 
           $preview_divider.style.backgroundColor = site.color;
           $preview_divider.style.width = '100%';
