@@ -72,6 +72,8 @@ load_sites = (settings) => {
 
         // Animations
         $thumbnail.addEventListener('mouseover', () => {
+          const siblings = Array.from($thumbnail.parentNode.children).filter(el => el !== $thumbnail);
+
           $thumbnail.style.borderColor = site.color;
           $thumbnail.style.backgroundColor = site.color;
 
@@ -83,6 +85,10 @@ load_sites = (settings) => {
 
           $preview_divider.style.backgroundColor = site.color;
           $preview_divider.style.width = '100%';
+
+          siblings.forEach(($sibling) => {
+            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
+          });
         });
 
         $thumbnail.addEventListener('mouseout', () => {
@@ -93,6 +99,10 @@ load_sites = (settings) => {
           $preview_image.style.transform = 'translateY(50vh)';
 
           $preview_divider.style.width = '0';
+
+          document.querySelectorAll('.thumbnail__image').forEach(($thumbnail_image) => {
+            $thumbnail_image.style.filter = 'blur(0)';
+          });
         });
 
         // Display settings in Settings Panel

@@ -196,10 +196,6 @@
       filter: blur(0);
     }
 
-    .sites:hover .thumbnail:not(:hover) .thumbnail__image {
-      filter: blur(.5rem);
-    }
-
   .thumbnail__caption {
     position: absolute;
     left: 50%;
