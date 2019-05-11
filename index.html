@@ -12,8 +12,8 @@
     <header class="top_bar">
       <div class="top_bar__wrapper">
         <div class="weather">
+          <div class="weather__status"></div>
           <div class="weather__temperature"></div>
-          <div class="weather__summary"></div>
         </div>
       </div>
       <div class="top_bar__wrapper top_bar__wrapper--search">
@@ -43,13 +43,13 @@
         </div>
       </template>
 
-      <section class="sites"></section>
-
-      <section class="preview">
-        <div class="preview__divider"></div>
-        <img class="preview__image" src="images/ui/placeholder.png" alt="">
-      </section>
+      <section class="thumbnails"></section>
     </main>
+
+    <section class="preview">
+      <div class="preview__divider"></div>
+      <img class="preview__image" src="images/ui/placeholder.png" alt="">
+    </section>
 
     <section class="settings">
       <div class="settings__wrapper">
@@ -65,15 +65,15 @@
 
           <div class="setting">
               <label class="setting__label" for="setting__input--latitude">Latitude:</label>
-              <input class="setting__input setting__input--latitude" type="text" required>
+              <input class="setting__input setting__input--latitude" type="text" placeholder="Optional">
           </div>
           <div class="setting">
               <label class="setting__label" for="setting__input--longitude">Longitude:</label>
-              <input class="setting__input setting__input--longitude" type="text" required>
+              <input class="setting__input setting__input--longitude" type="text" placeholder="Optional">
           </div>
           <div class="setting">
               <label class="setting__label" for="setting__input--key"><a href="https://darksky.net/dev/register" target="_blank">API Key:</a></label>
-              <input class="setting__input setting__input--key" type="text" required>
+              <input class="setting__input setting__input--key" type="text" placeholder="Required if weather is enabled." required>
           </div>
         </div>
 
@@ -194,7 +194,7 @@
 
         <a class="settings__button settings__button--save">Save</a>
 
-        <a class="settings__button settings__button--close">Close</a>
+        <a class="settings__button settings__button--cancel">Cancel</a>
 
       </div>
     </section>

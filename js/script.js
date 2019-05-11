@@ -1,87 +1,109 @@
-
 const $search_input = document.querySelector('.search__input'),
+      $weather = document.querySelector('.weather'),
+      $weather_status = document.querySelector('.weather__status'),
+      $weather_temperature = document.querySelector('.weather__temperature'),
+      $thumbnails = document.querySelector('.thumbnails'),
+      $settings_panel = document.querySelector('.settings'),
 
 search = () => {
   let query = $search_input.value.split(' ').join('+');
   window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
 },
 
-load_weather = (settings) => {
+load_weather = (latitude, longitude, settings) => {
+  const proxy = 'https://cors-anywhere.herokuapp.com/',
+        api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${latitude},${longitude}`;
+
+  fetch(api).then(response => {
+    return response.json();
+  }).then(data => {
+    const { icon, temperature, nearestStormDistance } = data.currently,
+          { summary } = data.daily.data[0];
+
+    $weather.title = summary;
+    $weather_temperature.textContent = `${Math.round(temperature)} °`;
+    $weather_temperature.style.visibility = 'visible';
+    $weather_temperature.style.opacity = 1;
+
+    if (nearestStormDistance < .1) {
+      $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/storm.svg" alt="Storm">';
+      return;
+    }
+
+    switch(icon) {
+      case 'cloudy':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
+        break;
+      case 'rain':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/rain.svg" alt="Rain">';
+        break;
+      case 'snow':
+      case 'sleet':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
+        break;
+      case 'partly-cloudy-day':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
+        break;
+      case 'partly-cloudy-night':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
+        break;
+      case 'clear-night':
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
+        break;
+      default:
+        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
+    }
+  });
+},
+
+get_coordinates = (settings) => {
   if (settings) {
     if ('weather' in settings) {
       if (settings.weather.enabled) {
-        const $loading_icon = document.createElement('img'),
-              proxy = 'https://cors-anywhere.herokuapp.com/',
-              api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${settings.weather.latitude},${settings.weather.longitude}`,
-              $weather_temperature = document.querySelector('.weather__temperature'),
-              $weather_summary = document.querySelector('.weather__summary');
+        $weather.title = 'Loading Weather...';
+        $weather_status.innerHTML = '<div class="weather__loading"></div>';
 
-        $loading_icon.classList.add('weather__loading');
-        $loading_icon.src = 'images/ui/loading.svg';
-
-        document.querySelector('.weather').appendChild($loading_icon);
-
-        fetch(api).then(response => {
-          return response.json();
-        }).then(data => {
-          const {icon, temperature, summary} = data.currently;
-
-          $loading_icon.remove();
-
-          $weather_temperature.textContent = `${Math.round(temperature)} °`;
-          $weather_temperature.style.visibility = 'visible';
-          $weather_temperature.style.opacity = 1;
-
-          $weather_summary.textContent = summary;
-          $weather_summary.style.visibility = 'visible';
-          $weather_summary.style.opacity = 1;
-        });
-
-        // Display settings in Settings Panel
-        document.querySelector('#weather__toggle').checked = true;
-        document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-        document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-        document.querySelector('.setting__input--key').value = settings.weather.key;
+        if (settings.weather.latitude && settings.weather.longitude) {
+          load_weather(settings.weather.latitude, settings.weather.longitude, settings);
+        }
+        else {
+          fetch('https://geoip-db.com/json/').then(response => {
+            return response.json();
+          }).then(location => {
+            load_weather(location.latitude, location.longitude, settings);
+          });
+        }
       }
       else {
+        $weather_status.textContent = '';
         $weather_temperature.textContent = '';
-        $weather_summary.textContent = '';
-
-        // Display settings in Settings Panel
-        document.querySelector('#weather__toggle').checked = false;
-        document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-        document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-        document.querySelector('.setting__input--key').value = settings.weather.key;
       }
     }
   }
 },
 
-load_sites = (settings) => {
-  const $site_template = document.querySelector('template');
-
+load_thumbnails = (settings) => {
   if (settings) {
     if ('sites' in settings) {
       settings.sites.forEach((site, index) => {
-        const site_template = document.importNode($site_template.content, true),
-              $thumbnail = site_template.querySelector('.thumbnail'),
-              $thumbnail_link = site_template.querySelector('.thumbnail__link'),
+        const $thumbnail = document.importNode(document.querySelector('template').content, true).querySelector('.thumbnail'),
+              $thumbnail_link = $thumbnail.querySelector('.thumbnail__link'),
               $preview_divider = document.querySelector('.preview__divider'),
               $preview_image = document.querySelector('.preview__image'),
               image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
 
         $thumbnail_link.href = site.url;
 
-        site_template.querySelector('.thumbnail__image').src = image_source;
-        site_template.querySelector('.thumbnail__image').alt = site.name;
+        $thumbnail.querySelector('.thumbnail__image').src = image_source;
+        $thumbnail.querySelector('.thumbnail__image').alt = site.name;
 
-        site_template.querySelector('.thumbnail__caption').innerText = site.name;
+        $thumbnail.querySelector('.thumbnail__caption').innerText = site.name;
 
         if (index + 1 <= 5) {
-          document.querySelector('.sites').style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 2rem))`;
+          $thumbnails.style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 2rem))`;
         }
 
-        document.querySelector('.sites').appendChild(site_template);
+        $thumbnails.appendChild($thumbnail);
 
         // Animations
         $thumbnail.addEventListener('mouseover', () => {
@@ -117,36 +139,9 @@ load_sites = (settings) => {
             $thumbnail_image.style.filter = 'blur(0)';
           });
         });
-
-        // Display settings in Settings Panel
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
-      });
-
-      document.querySelectorAll('.setting--color').forEach($color_container => {
-        $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
-
-        $color_container.querySelector('.setting__color').addEventListener('change', event => {
-          $color_container.style.backgroundColor = event.target.value;
-        });
       });
     }
   }
-},
-
-$settings_panel = document.querySelector('.settings'),
-
-show_settings = () => {
-    $settings_panel.style.visibility = 'visible';
-    $settings_panel.style.opacity = 1;
-},
-
-close_settings = () => {
-  $settings_panel.style.visibility = 'hidden';
-  $settings_panel.style.opacity = 0;
-  setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
 },
 
 Settings = class {
@@ -164,10 +159,10 @@ Settings = class {
 
   save() {
     chrome.storage.local.set({ new_tab_settings: this }, () => {
-      document.querySelector('.sites').innerHTML = '';
+      $thumbnails.innerHTML = '';
       Settings.load((settings) => {
-        load_weather(settings);
-        load_sites(settings);
+        get_coordinates(settings);
+        load_thumbnails(settings);
         close_settings();
       });
     });
@@ -176,6 +171,27 @@ Settings = class {
   static load(callback) {
     chrome.storage.local.get(['new_tab_settings'], result => {
       const settings = result.new_tab_settings;
+
+      document.querySelector('#weather__toggle').checked = settings.weather.enabled;
+      document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+      document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+      document.querySelector('.setting__input--key').value = settings.weather.key;
+
+      settings.sites.forEach((site, index) => {
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
+        document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
+      });
+
+      document.querySelectorAll('.setting--color').forEach($color_container => {
+        $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
+
+        $color_container.querySelector('.setting__color').addEventListener('change', event => {
+          $color_container.style.backgroundColor = event.target.value;
+        });
+      });
+
       callback(settings);
     });
   }
@@ -197,6 +213,23 @@ Site = class {
     this.color = color;
     this.image = image;
   }
+},
+
+show_settings = () => {
+  Settings.load(() => {
+    document.querySelectorAll('.setting__input--error').forEach($field => {
+      $field.classList.remove('setting__input--error');
+    });
+
+    $settings_panel.style.visibility = 'visible';
+    $settings_panel.style.opacity = 1;
+  });
+},
+
+close_settings = () => {
+  $settings_panel.style.visibility = 'hidden';
+  $settings_panel.style.opacity = 0;
+  setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
 },
 
 save_settings = () => {
@@ -263,8 +296,8 @@ save_settings = () => {
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', event => {
   Settings.load((settings) => {
-    load_weather(settings);
-    load_sites(settings);
+    get_coordinates(settings);
+    load_thumbnails(settings);
   });
 
   // Search Startpage
@@ -309,14 +342,14 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Close Settings
-  document.querySelector('.settings__button--close').addEventListener('click', (event) => {
+  document.querySelector('.settings__button--cancel').addEventListener('click', (event) => {
     event.preventDefault();
     close_settings();
   });
 
-  $settings_panel.addEventListener('click', (event) => {
-    if (event.target == $settings_panel) { close_settings(); }
-  });
+  // $settings_panel.addEventListener('click', (event) => {
+  //   if (event.target == $settings_panel) { close_settings(); }
+  // });
 
   document.addEventListener('keydown', (key_pressed) => {
     if (key_pressed.keyCode == 27) {
