@@ -5,9 +5,9 @@
 
 ## Screenshots
 
-![New Tab](https://imgur.com/44IiWSk.png)
-![New Tab Preview](https://imgur.com/IKy4SZj.png)
-![New Tab Settings](https://imgur.com/3ZNorBJ.png)
+![New Tab](https://imgur.com/tFlxDeO.png)
+![New Tab Preview](https://imgur.com/FfkjHyv.png)
+![New Tab Settings](https://imgur.com/31IIVfj.png)
 
 ## Installation
 
@@ -18,13 +18,25 @@
 5. Click **Load unpacked**
 6. Browse to and select the **new-tab-master** folder.
 
-You can now begin to use New Tab! Simply open a new tab and click the settings icon in the top right to add your site info.
+You can now begin to use New Tab! Simply open a new tab and click the settings icon in the top right to customize.
 
-Note that the **Image** field for each site should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).  Alternatively, you can link directly to an online image by pasting the entire image address in the field.
+## Settings
 
-## Coming Soon
+## Weather
 
-- [ ] More search engines
-- [ ] Add up to 10 sites
-- [ ] Light mode
+By default, the weather conditions displayed will be based on your approximate location given your current IP address.  You can override this and set a static location by entering both the latitude and longitude in the appropriate fields.
+
+Note that the weather widget requires you generate and enter an API key in the settings.  You can sign up for an API key at https://darksky.net/dev/register.
+
+### Sites
+
+Be sure not to leave a field empty when adding a new site. The **Image** field for each site should contain the file name of screenshot you want to use for that site (e.g. reddit.jpg).  Alternatively, you can link directly to an online image by pasting the image location in the field.
+
+## Enhancement Suggestions
+
+Below are future enhancements that are under consideration:
+
+- [ ] Support for up to 10 sites
+- [ ] Dynamic light/dark mode based on the time of day (enabled in settings)
+- [ ] Cycle through multiple search engines by pressing tab in the search box
 - [ ] Automagic screenshots based on URL entered in settings

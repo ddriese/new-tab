@@ -1,0 +1,24 @@
+<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.4577 11.7898H10.1497L7.98891 16.1113H9.70769L7.98891 20.1382L12.6051 14.6872H10.5916L12.4577 11.7898Z" fill="#E0B16A"/>
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="7" y="11" width="6" height="10">
+<path d="M12.4577 11.7898H10.1497L7.98891 16.1113H9.70769L7.98891 20.1382L12.6051 14.6872H10.5916L12.4577 11.7898Z" fill="#E0B16A"/>
+</mask>
+<g mask="url(#mask0)">
+<path d="M13.4393 11.7898H11.3276L9.324 15.2961H11.1606L7.93916 20.089L14.1759 13.4104H12.408L13.4393 11.7898Z" fill="#C88829"/>
+</g>
+<circle cx="4.41781" cy="9.45533" r="3.89333" fill="#444444"/>
+<ellipse cx="16.9828" cy="10.0153" rx="3.33333" ry="3.33333" fill="#444444"/>
+<ellipse cx="14.7111" cy="6.78867" rx="2.66667" ry="2.66667" fill="#444444"/>
+<circle cx="8.68448" cy="5.53533" r="5.12" fill="#444444"/>
+<rect x="4.20448" y="8.4953" width="12.8533" height="4.85333" fill="#444444"/>
+<mask id="mask1" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="14">
+<circle cx="4.41781" cy="9.45533" r="3.89333" fill="#444444"/>
+<ellipse cx="16.9828" cy="10.0153" rx="3.33333" ry="3.33333" fill="#444444"/>
+<ellipse cx="14.7111" cy="6.78867" rx="2.66667" ry="2.66667" fill="#444444"/>
+<circle cx="8.68448" cy="5.53533" r="5.12" fill="#444444"/>
+<rect x="4.20448" y="8.4953" width="12.8533" height="4.85333" fill="#444444"/>
+</mask>
+<g mask="url(#mask1)">
+<path d="M16.6495 1.61484L1.52448 15.0523H21.0245L26.0245 11.3023L16.6495 1.61484Z" fill="#333333"/>
+</g>
+</svg>
