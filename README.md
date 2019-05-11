@@ -22,7 +22,7 @@ You can now begin to use New Tab! Simply open a new tab and click the settings i
 
 ## Settings
 
-## Weather
+### Weather
 
 By default, the weather conditions displayed will be based on your approximate location given your current IP address.  You can override this and set a static location by entering both the latitude and longitude in the appropriate fields.
 
