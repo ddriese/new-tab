@@ -25,7 +25,7 @@ load_weather = (latitude, longitude, settings) => {
     $weather_temperature.style.visibility = 'visible';
     $weather_temperature.style.opacity = 1;
 
-    if (nearestStormDistance < .1) {
+    if (nearestStormDistance === 0) {
       $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/storm.svg" alt="Storm">';
       return;
     }
