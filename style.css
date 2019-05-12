@@ -1,9 +1,3 @@
-
-/* DARKER */
-/* body - rgb(20, 20, 20); */
-/* top_bar - rgb(16, 16, 16); */
-/* search - rgb(20, 20, 20); */
-
 /* Main Styles */
 
   :root {
@@ -507,8 +501,6 @@
     }
 
   .settings__icon {
-    width: 1.5rem;
-
     transform: rotateZ(-720deg);
     transition: var(--transition);
   }

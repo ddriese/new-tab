@@ -90,7 +90,7 @@ load_thumbnails = (settings) => {
               $thumbnail_link = $thumbnail.querySelector('.thumbnail__link'),
               $preview_divider = document.querySelector('.preview__divider'),
               $preview_image = document.querySelector('.preview__image'),
-              image_source = site.image.includes('://') ? site.image : `images/${site.image}`;
+              image_source = site.image.includes('://') ? site.image : `/images/${site.image}`;
 
         $thumbnail_link.href = site.url;
 
@@ -109,10 +109,6 @@ load_thumbnails = (settings) => {
         $thumbnail.addEventListener('mouseover', () => {
           const siblings = Array.from($thumbnail.parentNode.children).filter(el => el !== $thumbnail);
 
-          siblings.forEach(($sibling) => {
-            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
-          });
-
           $thumbnail.style.borderColor = site.color;
           $thumbnail.style.backgroundColor = site.color;
 
@@ -124,6 +120,10 @@ load_thumbnails = (settings) => {
 
           $preview_divider.style.backgroundColor = site.color;
           $preview_divider.style.width = '100%';
+
+          siblings.forEach(($sibling) => {
+            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
+          });
         });
 
         $thumbnail.addEventListener('mouseout', () => {
@@ -346,10 +346,6 @@ window.addEventListener('DOMContentLoaded', event => {
     event.preventDefault();
     close_settings();
   });
-
-  // $settings_panel.addEventListener('click', (event) => {
-  //   if (event.target == $settings_panel) { close_settings(); }
-  // });
 
   document.addEventListener('keydown', (key_pressed) => {
     if (key_pressed.keyCode == 27) {
