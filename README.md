@@ -23,7 +23,7 @@ From there, you are ready to install New Tab:
     - ![More](https://imgur.com/lsNg3v3.png) > More Tools > Extensions, *or*
     - Enter the following URL in the address bar: <a href="chrome://extensions" target="_blank">chrome://extensions</a>.
 4. Turn on **Developer Mode**.
-5. Click **Load unpacked**
+5. Click **Load unpacked**.
 6. Browse to and select the **new-tab-master** folder.
 
 You can now begin to use New Tab! Simply open a new tab and click the settings icon in the top right to customize.
