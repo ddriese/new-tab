@@ -18,17 +18,12 @@ load_weather = (latitude, longitude, settings) => {
     return response.json();
   }).then(data => {
     const { icon, temperature, nearestStormDistance } = data.currently,
-          { summary } = data.daily.data[0];
+          { summary } = data.minutely;
 
     $weather.title = summary;
     $weather_temperature.textContent = `${Math.round(temperature)} °`;
     $weather_temperature.style.visibility = 'visible';
     $weather_temperature.style.opacity = 1;
-
-    if (nearestStormDistance === 0) {
-      $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/storm.svg" alt="Storm">';
-      return;
-    }
 
     switch(icon) {
       case 'cloudy':
