@@ -48,7 +48,7 @@ Note that the weather widget requires you generate and enter an API key in the s
 
 Below are future enhancements that are under consideration:
 
-- [ ] Support for up to 10 sites
+- [x] Support for up to 10 sites
 - [ ] Dynamic light/dark mode based on the time of day (enabled in settings)
 - [ ] Cycle through multiple search engines by pressing tab in the search box
 - [ ] Automagic screenshots based on URL entered in settings
