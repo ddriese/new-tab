@@ -309,7 +309,8 @@
   }
 
   .settings__weather,
-  .settings__site {
+  .settings__site,
+  .settings__sites {
     margin-bottom: 3rem;
     padding: 3rem;
   }
@@ -318,6 +319,14 @@
     margin: 0;
 
     font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+  }
+
+  .settings__heading-small{
+    margin: 0;
+
+    font-size: 1.4rem;
     text-transform: uppercase;
     letter-spacing: .2rem;
   }
@@ -386,6 +395,8 @@
     .setting:first-child { margin-top: 0; }
 
     .setting--weather { justify-content: space-between; }
+
+    .setting--sites { justify-content: space-between; }
 
     .weather__wrapper { display: flex; justify-content: center; }
 
@@ -557,3 +568,31 @@
       scroll-behavior: auto;
     }
   }
+
+.sites__button--add  {
+  display:inline-block;
+  margin:auto;
+  font-size:3rem;
+  cursor: pointer;
+}
+
+.sites__button--add:hover {
+  color:#fff;
+}
+.setting--site{
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+}
+.site__button--remove {
+  font-size:2rem; 
+  cursor: pointer;
+}
+
+.site__button--remove:hover {
+  color:#fff;
+}
+
+.site__wrapper {
+  display:block;
+}
