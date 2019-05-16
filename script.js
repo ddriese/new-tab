@@ -83,16 +83,16 @@ load_thumbnails = (settings) => {
       settings.sites.forEach((site, index) => {
         const $thumbnail = document.importNode(document.querySelector('template').content, true).querySelector('.thumbnail'),
               $thumbnail_link = $thumbnail.querySelector('.thumbnail__link'),
+              $thumbnail_image = $thumbnail.querySelector('.thumbnail__image'),
+              $thumbnail_caption = $thumbnail.querySelector('.thumbnail__caption'),
               $preview_divider = document.querySelector('.preview__divider'),
               $preview_image = document.querySelector('.preview__image'),
               image_source = site.image.includes('://') ? site.image : `/images/${site.image}`;
 
         $thumbnail_link.href = site.url;
-
-        $thumbnail.querySelector('.thumbnail__image').src = image_source;
-        $thumbnail.querySelector('.thumbnail__image').alt = site.name;
-
-        $thumbnail.querySelector('.thumbnail__caption').innerText = site.name;
+        $thumbnail_image.src = image_source;
+        $thumbnail_image.alt = site.name;
+        $thumbnail_caption.innerText = site.name;
 
         if (index + 1 <= 5) {
           $thumbnails.style.gridTemplateColumns = `repeat(${index + 1}, calc(20% - 2rem))`;
@@ -101,16 +101,15 @@ load_thumbnails = (settings) => {
         $thumbnails.appendChild($thumbnail);
 
         // Animations
-        $thumbnail.addEventListener('mouseover', () => {
+        $thumbnail.addEventListener('mouseenter', () => {
           const siblings = Array.from($thumbnail.parentNode.children).filter(el => el !== $thumbnail);
 
           $thumbnail.style.borderColor = site.color;
           $thumbnail.style.backgroundColor = site.color;
-
           $thumbnail_link.style.borderColor = site.color;
 
           $preview_image.src = image_source;
-          $preview_image.alt = site.name.charAt(0).toUpperCase() + site.name.slice(1);
+          $preview_image.alt = site.name;
           $preview_image.style.transform = 'translateY(calc(-50vh + .5rem)';
 
           $preview_divider.style.backgroundColor = site.color;
@@ -121,7 +120,7 @@ load_thumbnails = (settings) => {
           });
         });
 
-        $thumbnail.addEventListener('mouseout', () => {
+        $thumbnail.addEventListener('mouseleave', () => {
           $thumbnail.style.borderColor = '#666';
           $thumbnail.style.backgroundColor = '#333';
           $thumbnail_link.style.borderColor = '#666';

@@ -222,10 +222,6 @@
     transition: var(--transition);
   }
 
-    .thumbnail__image:hover {
-      filter: blur(0);
-    }
-
   .thumbnail__caption {
     position: absolute;
     left: 50%;
