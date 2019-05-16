@@ -166,25 +166,27 @@ Settings = class {
     chrome.storage.local.get(['new_tab_settings'], result => {
       const settings = result.new_tab_settings;
 
-      document.querySelector('#weather__toggle').checked = settings.weather.enabled;
-      document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-      document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-      document.querySelector('.setting__input--key').value = settings.weather.key;
+      if (settings) {
+        if ('weather' in settings) {
+          document.querySelector('#weather__toggle').checked = settings.weather.enabled;
+          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
+          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
+          document.querySelector('.setting__input--key').value = settings.weather.key;
+        }
 
-      settings.sites.forEach((site, index) => {
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
-        document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
-      });
+        if ('sites' in settings) {
+          settings.sites.forEach((site, index) => {
+            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
+            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
+            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
+            document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
+          });
 
-      document.querySelectorAll('.setting--color').forEach($color_container => {
-        $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
-
-        $color_container.querySelector('.setting__color').addEventListener('change', event => {
-          $color_container.style.backgroundColor = event.target.value;
-        });
-      });
+          document.querySelectorAll('.setting--color').forEach($color_container => {
+            $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
+          });
+        }
+      }
 
       callback(settings);
     });
@@ -345,5 +347,12 @@ window.addEventListener('DOMContentLoaded', event => {
     if (key_pressed.keyCode == 27) {
       close_settings();
     }
+  });
+
+  // Change Site Accent Color
+  document.querySelectorAll('.setting--color').forEach($color_container => {
+    $color_container.querySelector('.setting__color').addEventListener('change', event => {
+      $color_container.style.backgroundColor = event.target.value;
+    });
   });
 });
