@@ -100,11 +100,13 @@
   }
 
   .weather__loading {
-    border: 3px solid rgba(74, 74, 74, 0.2);
-    border-top-color: #4a4a4a;
-    border-radius: 50%;
     width: 1.6rem;
     height: 1.6rem;
+    border-radius: 50%;
+
+    border: 3px solid #222;
+    border-top-color: #4a4a4a;
+
     animation: spin 1s linear infinite;
   }
 
@@ -551,6 +553,10 @@
   @media ( prefers-reduced-motion: reduce ) {
     :root {
       --transition: 0s;
+    }
+
+    .weather__loading {
+      visibility: hidden;
     }
 
     .settings {
