@@ -10,64 +10,73 @@ search = () => {
   window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
 },
 
-load_weather = (latitude, longitude, settings) => {
-  const proxy = 'https://cors-anywhere.herokuapp.com/',
-        api = `${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${latitude},${longitude}`;
-
-  fetch(api).then(response => {
-    return response.json();
-  }).then(data => {
-    const { icon, temperature, nearestStormDistance } = data.currently,
-          { summary } = data.minutely;
-
-    $weather.title = summary;
-    $weather_temperature.textContent = `${Math.round(temperature)} °`;
-    $weather_temperature.style.visibility = 'visible';
-    $weather_temperature.style.opacity = 1;
-
-    switch(icon) {
-      case 'cloudy':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
-        break;
-      case 'rain':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/rain.svg" alt="Rain">';
-        break;
-      case 'snow':
-      case 'sleet':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
-        break;
-      case 'partly-cloudy-day':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
-        break;
-      case 'partly-cloudy-night':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
-        break;
-      case 'clear-night':
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
-        break;
-      default:
-        $weather_status.innerHTML = '<img class="weather__icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
-    }
-  });
+get_coordinates = (latitude, longitude, callback) => {
+  if (latitude && longitude) {
+    callback(latitude, longitude);
+  }
+  else {
+    fetch('https://geoip-db.com/json/').then(response => {
+      return response.json();
+    }).then(location => {
+      callback(location.latitude, location.longitude);
+    });
+  }
 },
 
-get_coordinates = (settings) => {
+load_weather = settings => {
   if (settings) {
     if ('weather' in settings) {
       if (settings.weather.enabled) {
+        const proxy = 'https://cors-anywhere.herokuapp.com/';
+
         $weather.title = 'Loading Weather...';
         $weather_status.innerHTML = '<div class="weather__loading"></div>';
 
-        if (settings.weather.latitude && settings.weather.longitude) {
-          load_weather(settings.weather.latitude, settings.weather.longitude, settings);
-        }
-        else {
-          fetch('https://geoip-db.com/json/').then(response => {
+        get_coordinates(settings.weather.latitude, settings.weather.longitude, (latitude, longitude) => {
+          fetch(`${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${latitude},${longitude}`).then(response => {
             return response.json();
-          }).then(location => {
-            load_weather(location.latitude, location.longitude, settings);
+          }).then(data => {
+            const { icon, temperature } = data.currently,
+                  { summary } = data.minutely;
+
+            $weather.title = summary;
+            $weather_temperature.textContent = `${Math.round(temperature)} °`;
+            $weather_temperature.style.visibility = 'visible';
+            $weather_temperature.style.opacity = 1;
+
+            switch(icon) {
+              case 'cloudy':
+              case 'fog':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
+                break;
+              case 'rain':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/rain.svg" alt="Rain">';
+                break;
+              case 'snow':
+              case 'sleet':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
+                break;
+              case 'partly-cloudy-day':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
+                break;
+              case 'partly-cloudy-night':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
+                break;
+              case 'clear-night':
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
+                break;
+              default:
+                $weather_status.innerHTML =
+                  '<img class="weather__icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
+            }
           });
-        }
+        });
       }
       else {
         $weather_status.textContent = '';
@@ -77,7 +86,7 @@ get_coordinates = (settings) => {
   }
 },
 
-load_thumbnails = (settings) => {
+load_thumbnails = settings => {
   if (settings) {
     if ('sites' in settings) {
       settings.sites.forEach((site, index) => {
@@ -115,7 +124,7 @@ load_thumbnails = (settings) => {
           $preview_divider.style.backgroundColor = site.color;
           $preview_divider.style.width = '100%';
 
-          siblings.forEach(($sibling) => {
+          siblings.forEach($sibling => {
             $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
           });
         });
@@ -129,7 +138,7 @@ load_thumbnails = (settings) => {
 
           $preview_divider.style.width = '0';
 
-          document.querySelectorAll('.thumbnail__image').forEach(($thumbnail_image) => {
+          document.querySelectorAll('.thumbnail__image').forEach($thumbnail_image => {
             $thumbnail_image.style.filter = 'blur(0)';
           });
         });
@@ -154,8 +163,8 @@ Settings = class {
   save() {
     chrome.storage.local.set({ new_tab_settings: this }, () => {
       $thumbnails.innerHTML = '';
-      Settings.load((settings) => {
-        get_coordinates(settings);
+      Settings.load(settings => {
+        load_weather(settings);
         load_thumbnails(settings);
         close_settings();
       });
@@ -229,14 +238,10 @@ close_settings = () => {
 },
 
 save_settings = () => {
-  const settings = new Settings();
   let error = false;
 
-  document.querySelectorAll('.setting__input--error').forEach($field => {
-    $field.classList.remove('setting__input--error');
-  });
-
-  const $weather_settings = document.querySelector('.settings__weather'),
+  const settings = new Settings(),
+        $weather_settings = document.querySelector('.settings__weather'),
         empty_fields = $weather_settings.querySelectorAll('.setting__input:invalid').length,
         weather = new Weather(
           document.querySelector('#weather__toggle').checked,
@@ -245,13 +250,17 @@ save_settings = () => {
           $weather_settings.querySelector('.setting__input--key').value,
         );
 
+  document.querySelectorAll('.setting__input--error').forEach($field => {
+    $field.classList.remove('setting__input--error');
+  });
+
   if (document.querySelector('#weather__toggle').checked) {
     if (!empty_fields) {
       settings.add_weather(weather);
     }
     else {
-      $weather_settings.querySelectorAll('.setting__input:invalid').forEach(field => {
-        field.classList.add('setting__input--error');
+      $weather_settings.querySelectorAll('.setting__input:invalid').forEach($field => {
+        $field.classList.add('setting__input--error');
       });
       error = true;
     }
@@ -292,12 +301,12 @@ save_settings = () => {
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', event => {
   Settings.load((settings) => {
-    get_coordinates(settings);
+    load_weather(settings);
     load_thumbnails(settings);
   });
 
-  // Search Startpage
-  $search_input.addEventListener('focus', (event) => {
+  // Search
+  $search_input.addEventListener('focus', event => {
     event.target.placeholder = '';
   });
 
@@ -305,7 +314,7 @@ window.addEventListener('DOMContentLoaded', event => {
     event.target.placeholder = 'search';
   });
 
-  $search_input.addEventListener('keydown', (key_pressed) => {
+  $search_input.addEventListener('keydown', key_pressed => {
     if (key_pressed.keyCode == 13) {
       key_pressed.preventDefault();
       search();
@@ -317,18 +326,18 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Show Settings
-  document.querySelector('.settings__button--open').addEventListener('click', (event) => {
+  document.querySelector('.settings__button--open').addEventListener('click', event => {
     event.preventDefault();
     show_settings();
   });
 
   // Save Settings
-  document.querySelector('.settings__button--save').addEventListener('click', (event) => {
+  document.querySelector('.settings__button--save').addEventListener('click', event => {
     event.preventDefault();
     save_settings();
   });
 
-  document.addEventListener('keydown', (key_pressed) => {
+  document.addEventListener('keydown', key_pressed => {
     if (key_pressed.target.classList.contains('setting__input')) {
       if (key_pressed.keyCode == 13) {
         key_pressed.preventDefault();
@@ -338,18 +347,18 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Close Settings
-  document.querySelector('.settings__button--cancel').addEventListener('click', (event) => {
+  document.querySelector('.settings__button--cancel').addEventListener('click', event => {
     event.preventDefault();
     close_settings();
   });
 
-  document.addEventListener('keydown', (key_pressed) => {
+  document.addEventListener('keydown', key_pressed => {
     if (key_pressed.keyCode == 27) {
       close_settings();
     }
   });
 
-  // Change Site Accent Color
+  // Miscellaneous
   document.querySelectorAll('.setting--color').forEach($color_container => {
     $color_container.querySelector('.setting__color').addEventListener('change', event => {
       $color_container.style.backgroundColor = event.target.value;
