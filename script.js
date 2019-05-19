@@ -1,9 +1,9 @@
-const $search_input = document.querySelector('.search__input'),
+const $search_input = document.querySelector('.search-input'),
       $weather = document.querySelector('.weather'),
-      $weather_status = document.querySelector('.weather__status'),
-      $weather_temperature = document.querySelector('.weather__temperature'),
+      $weather_status = document.querySelector('.weather-status'),
+      $weather_temperature = document.querySelector('.weather-temperature'),
       $thumbnails = document.querySelector('.thumbnails'),
-      $settings_panel = document.querySelector('.settings'),
+      $settings_panel = document.querySelector('.settings-panel'),
 
 search = () => {
   let query = $search_input.value.split(' ').join('+');
@@ -30,7 +30,7 @@ load_weather = settings => {
         const proxy = 'https://cors-anywhere.herokuapp.com/';
 
         $weather.title = 'Loading Weather...';
-        $weather_status.innerHTML = '<div class="weather__loading"></div>';
+        $weather_status.innerHTML = '<div class="loading-icon"></div>';
 
         get_coordinates(settings.weather.latitude, settings.weather.longitude, (latitude, longitude) => {
           fetch(`${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${latitude},${longitude}`).then(response => {
@@ -48,32 +48,32 @@ load_weather = settings => {
               case 'cloudy':
               case 'fog':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
+                  '<img class="weather-icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
                 break;
               case 'rain':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/rain.svg" alt="Rain">';
+                  '<img class="weather-icon" src="/images/ui/weather/rain.svg" alt="Rain">';
                 break;
               case 'snow':
               case 'sleet':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
+                  '<img class="weather-icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
                 break;
               case 'partly-cloudy-day':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
+                  '<img class="weather-icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
                 break;
               case 'partly-cloudy-night':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
+                  '<img class="weather-icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
                 break;
               case 'clear-night':
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
+                  '<img class="weather-icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
                 break;
               default:
                 $weather_status.innerHTML =
-                  '<img class="weather__icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
+                  '<img class="weather-icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
             }
           });
         });
@@ -91,11 +91,11 @@ load_thumbnails = settings => {
     if ('sites' in settings) {
       settings.sites.forEach((site, index) => {
         const $thumbnail = document.importNode(document.querySelector('template').content, true).querySelector('.thumbnail'),
-              $thumbnail_link = $thumbnail.querySelector('.thumbnail__link'),
-              $thumbnail_image = $thumbnail.querySelector('.thumbnail__image'),
-              $thumbnail_caption = $thumbnail.querySelector('.thumbnail__caption'),
-              $preview_divider = document.querySelector('.preview__divider'),
-              $preview_image = document.querySelector('.preview__image'),
+              $thumbnail_link = $thumbnail.querySelector('.thumbnail-link'),
+              $thumbnail_image = $thumbnail.querySelector('.thumbnail-image'),
+              $thumbnail_caption = $thumbnail.querySelector('.thumbnail-caption'),
+              $preview_divider = document.querySelector('.preview-divider'),
+              $preview_image = document.querySelector('.preview-image'),
               image_source = site.image.includes('://') ? site.image : `/images/${site.image}`;
 
         $thumbnail_link.href = site.url;
@@ -125,7 +125,7 @@ load_thumbnails = settings => {
           $preview_divider.style.width = '100%';
 
           siblings.forEach($sibling => {
-            $sibling.querySelector('.thumbnail__image').style.filter = 'blur(.5rem)';
+            $sibling.querySelector('.thumbnail-image').style.filter = 'blur(.5rem)';
           });
         });
 
@@ -138,7 +138,7 @@ load_thumbnails = settings => {
 
           $preview_divider.style.width = '0';
 
-          document.querySelectorAll('.thumbnail__image').forEach($thumbnail_image => {
+          document.querySelectorAll('.thumbnail-image').forEach($thumbnail_image => {
             $thumbnail_image.style.filter = 'blur(0)';
           });
         });
@@ -177,22 +177,22 @@ Settings = class {
 
       if (settings) {
         if ('weather' in settings) {
-          document.querySelector('#weather__toggle').checked = settings.weather.enabled;
-          document.querySelector('.setting__input--latitude').value = settings.weather.latitude;
-          document.querySelector('.setting__input--longitude').value = settings.weather.longitude;
-          document.querySelector('.setting__input--key').value = settings.weather.key;
+          document.querySelector('#weather-toggle').checked = settings.weather.enabled;
+          document.querySelector('.latitude').value = settings.weather.latitude;
+          document.querySelector('.longitude').value = settings.weather.longitude;
+          document.querySelector('.key').value = settings.weather.key;
         }
 
         if ('sites' in settings) {
           settings.sites.forEach((site, index) => {
-            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--name').value = site.name;
-            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--url').value = site.url;
-            document.querySelectorAll('.settings__site')[index].querySelector('.setting__input--image').value = site.image;
-            document.querySelectorAll('.settings__site')[index].querySelector('.setting__color').value = site.color;
+            document.querySelectorAll('.site-settings')[index].querySelector('.site-name').value = site.name;
+            document.querySelectorAll('.site-settings')[index].querySelector('.site-url').value = site.url;
+            document.querySelectorAll('.site-settings')[index].querySelector('.site-image').value = site.image;
+            document.querySelectorAll('.site-settings')[index].querySelector('.color-input').value = site.color;
           });
 
-          document.querySelectorAll('.setting--color').forEach($color_container => {
-            $color_container.style.backgroundColor = $color_container.querySelector('.setting__color').value;
+          document.querySelectorAll('.color').forEach($color_container => {
+            $color_container.style.backgroundColor = $color_container.querySelector('.color-input').value;
           });
         }
       }
@@ -222,8 +222,8 @@ Site = class {
 
 show_settings = () => {
   Settings.load(() => {
-    document.querySelectorAll('.setting__input--error').forEach($field => {
-      $field.classList.remove('setting__input--error');
+    document.querySelectorAll('.error').forEach($field => {
+      $field.classList.remove('error');
     });
 
     $settings_panel.style.visibility = 'visible';
@@ -241,26 +241,26 @@ save_settings = () => {
   let error = false;
 
   const settings = new Settings(),
-        $weather_settings = document.querySelector('.settings__weather'),
-        empty_fields = $weather_settings.querySelectorAll('.setting__input:invalid').length,
+        $weather_settings = document.querySelector('.weather-settings'),
+        empty_fields = $weather_settings.querySelectorAll(':invalid').length,
         weather = new Weather(
-          document.querySelector('#weather__toggle').checked,
-          $weather_settings.querySelector('.setting__input--latitude').value,
-          $weather_settings.querySelector('.setting__input--longitude').value,
-          $weather_settings.querySelector('.setting__input--key').value,
+          document.querySelector('#weather-toggle').checked,
+          $weather_settings.querySelector('.latitude').value,
+          $weather_settings.querySelector('.longitude').value,
+          $weather_settings.querySelector('.key').value,
         );
 
-  document.querySelectorAll('.setting__input--error').forEach($field => {
-    $field.classList.remove('setting__input--error');
+  document.querySelectorAll('.error').forEach($field => {
+    $field.classList.remove('error');
   });
 
-  if (document.querySelector('#weather__toggle').checked) {
+  if (document.querySelector('#weather-toggle').checked) {
     if (!empty_fields) {
       settings.add_weather(weather);
     }
     else {
-      $weather_settings.querySelectorAll('.setting__input:invalid').forEach($field => {
-        $field.classList.add('setting__input--error');
+      $weather_settings.querySelectorAll(':invalid').forEach($field => {
+        $field.classList.add('error');
       });
       error = true;
     }
@@ -269,22 +269,22 @@ save_settings = () => {
     settings.add_weather(weather);
   }
 
-  document.querySelectorAll('.settings__site').forEach($site_settings => {
-    const fields = $site_settings.querySelectorAll('.setting__input').length,
-          empty_fields = $site_settings.querySelectorAll('.setting__input:invalid').length,
+  document.querySelectorAll('.site-settings').forEach($site_settings => {
+    const fields = $site_settings.querySelectorAll('input[type=text]').length,
+          empty_fields = $site_settings.querySelectorAll(':invalid').length,
           site = new Site(
-            $site_settings.querySelector('.setting__input--name').value,
-            $site_settings.querySelector('.setting__input--url').value,
-            $site_settings.querySelector('.setting__input--image').value,
-            $site_settings.querySelector('.setting__color').value
+            $site_settings.querySelector('.site-name').value,
+            $site_settings.querySelector('.site-url').value,
+            $site_settings.querySelector('.site-image').value,
+            $site_settings.querySelector('.color-input').value
           );
 
     if (!empty_fields) {
       settings.add_site(site);
     }
     else if (empty_fields > 0 && empty_fields < fields) {
-      $site_settings.querySelectorAll('.setting__input:invalid').forEach(field => {
-        field.classList.add('setting__input--error');
+      $site_settings.querySelectorAll(':invalid').forEach(field => {
+        field.classList.add('error');
       });
       error = true;
     }
@@ -294,7 +294,7 @@ save_settings = () => {
     settings.save();
   }
   else {
-    $settings_panel.scrollTop = $settings_panel.offsetTop + document.querySelector('.setting__input--error').offsetTop - 50;
+    $settings_panel.scrollTop = $settings_panel.offsetTop + document.querySelector('.error').offsetTop - 50;
   }
 };
 
@@ -321,24 +321,24 @@ window.addEventListener('DOMContentLoaded', event => {
     }
   });
 
-  document.querySelector('.search__button').addEventListener('click', () => {
+  document.querySelector('.search-button').addEventListener('click', () => {
     search();
   });
 
   // Show Settings
-  document.querySelector('.settings__button--open').addEventListener('click', event => {
+  document.querySelector('.open-settings-button').addEventListener('click', event => {
     event.preventDefault();
     show_settings();
   });
 
   // Save Settings
-  document.querySelector('.settings__button--save').addEventListener('click', event => {
+  document.querySelector('.save-settings-button').addEventListener('click', event => {
     event.preventDefault();
     save_settings();
   });
 
   document.addEventListener('keydown', key_pressed => {
-    if (key_pressed.target.classList.contains('setting__input')) {
+    if (key_pressed.target.nodeName == 'INPUT') {
       if (key_pressed.keyCode == 13) {
         key_pressed.preventDefault();
         save_settings();
@@ -347,7 +347,7 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Close Settings
-  document.querySelector('.settings__button--cancel').addEventListener('click', event => {
+  document.querySelector('.cancel-settings-button').addEventListener('click', event => {
     event.preventDefault();
     close_settings();
   });
@@ -359,8 +359,10 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   // Miscellaneous
-  document.querySelectorAll('.setting--color').forEach($color_container => {
-    $color_container.querySelector('.setting__color').addEventListener('change', event => {
+  document.querySelectorAll('.color').forEach($color_container => {
+    $color_container.style.backgroundColor = $color_container.querySelector('.color-input').value;
+
+    $color_container.querySelector('.color-input').addEventListener('change', event => {
       $color_container.style.backgroundColor = event.target.value;
     });
   });

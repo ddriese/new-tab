@@ -35,7 +35,7 @@
 
 /* Top Bar */
 
-  .top_bar {
+  .top-bar {
     position: sticky;
 
     display: flex;
@@ -49,16 +49,16 @@
     background: #101010;
   }
 
-  .top_bar__wrapper {
+  .top-bar-wrapper {
     flex: 1;
   }
 
-  .top_bar__wrapper--settings {
+  .top-bar-wrapper.right {
     text-align: right;
   }
 
   @media only screen and (max-width: 800px) {
-    .top_bar__wrapper--search {
+    .top-bar-wrapper.middle {
       flex: 2;
     }
   }
@@ -79,27 +79,27 @@
     cursor: default;
   }
 
-  .weather__status,
-  .weather__temperature {
+  .weather-status,
+  .weather-temperature {
     display: block;
 
     width: fit-content;
     height: fit-content;
   }
 
-  .weather__status {
+  .weather-status {
     margin-right: 1rem;
   }
 
-  .weather__icon { display: block; }
+  .weather-icon { display: block; }
 
-  .weather__temperature {
+  .weather-temperature {
     visibility: hidden;
     opacity: 0;
     transition: var(--transition);
   }
 
-  .weather__loading {
+  .loading-icon {
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 50%;
@@ -138,7 +138,7 @@
       background: #1a1a1a;
     }
 
-  .search__input {
+  .search-input {
     flex: 1;
 
     padding: 1rem 1rem 1rem 5rem;
@@ -157,15 +157,15 @@
     cursor: pointer;
   }
 
-    .search__input::placeholder {
+    .search-input::placeholder {
       color: #555;
     }
 
-    .search__input:focus {
+    .search-input:focus {
       cursor: text;
     }
 
-  .search__button {
+  .search-button {
     width: 4rem;
 
     background: url('/images/ui/search.svg') no-repeat 50% 1.2rem;
@@ -175,9 +175,30 @@
     cursor: pointer;
   }
 
-    .search__button:hover {
+    .search-button:hover {
       opacity: 1;
     }
+
+  .open-settings-button {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+  }
+
+  .settings-icon {
+    opacity: .5;
+    transform: rotateZ(-720deg);
+    transition: var(--transition);
+  }
+
+    .settings-icon:hover {
+      opacity: .75;
+      transform: rotateZ(720deg);
+     }
+
 
 /* Sites */
 
@@ -201,7 +222,7 @@
     cursor: pointer;
   }
 
-  .thumbnail__link {
+  .thumbnail-link {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -215,7 +236,7 @@
     transition: var(--transition);
   }
 
-  .thumbnail__image {
+  .thumbnail-image {
     display: block;
 
     max-width: 100%;
@@ -224,7 +245,7 @@
     transition: var(--transition);
   }
 
-  .thumbnail__caption {
+  .thumbnail-caption {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -245,7 +266,7 @@
     transition: var(--transition);
   }
 
-    .thumbnail:hover .thumbnail__caption {
+    .thumbnail:hover .thumbnail-caption {
       opacity: 1;
     }
 
@@ -265,14 +286,14 @@
     overflow: hidden;
   }
 
-  .preview__divider {
+  .preview-divider {
     width: 0;
     height: .5rem;
 
     transition: var(--transition);
   }
 
-  .preview__image {
+  .preview-image {
     position: absolute;
     top: 50vh;
 
@@ -284,7 +305,7 @@
 
 /* Settings */
 
-  .settings {
+  .settings-panel {
     visibility: hidden;
     opacity: 0;
 
@@ -301,22 +322,31 @@
     overflow: scroll;
     scroll-behavior: smooth;
     transition: var(--transition);
+    cursor: default;
   }
 
-    .settings a { color: #ccc; }
+    .settings-panel a { color: #ccc; }
 
-  .settings__wrapper {
+  .settings {
     width: 40%;
     margin: 0 auto;
   }
 
-  .settings__weather,
-  .settings__site {
+  .weather-settings,
+  .site-settings {
     margin-bottom: 3rem;
     padding: 3rem;
   }
 
-  .settings__heading {
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 3rem;
+  }
+
+  h1 {
     margin: 0;
 
     font-size: 1.8rem;
@@ -324,7 +354,7 @@
     letter-spacing: .2rem;
   }
 
-  #weather__toggle {
+  #weather-toggle {
     position: absolute;
 
     width: .1rem;
@@ -338,7 +368,7 @@
     clip: rect(0 0 0 0);
   }
 
-  .weather__switch {
+  .weather-switch {
     position: relative;
 
     display: inline-block;
@@ -353,7 +383,7 @@
     cursor: pointer;
   }
 
-  .weather__switch::after {
+  .weather-switch::after {
     position: absolute;
     top: .1rem;
     left: .1rem;
@@ -369,11 +399,11 @@
     transition: var(--transition);
   }
 
-  #weather__toggle:checked + .weather__switch::after {
+  #weather-toggle:checked + .weather-switch::after {
     transform: translateX(2.5rem);
   }
 
-  #weather__toggle:checked + .weather__switch {
+  #weather-toggle:checked + .weather-switch {
     background-color: #72c355;
   }
 
@@ -387,17 +417,13 @@
 
     .setting:first-child { margin-top: 0; }
 
-    .setting--weather { justify-content: space-between; }
-
-    .weather__wrapper { display: flex; justify-content: center; }
-
-  .setting__label {
+  label {
     flex: 1;
 
     font-size: 1.2rem;
   }
 
-  .setting__input {
+  input {
     flex: 5;
 
     padding: 1rem;
@@ -416,27 +442,27 @@
     cursor: pointer;
   }
 
-    .setting__input::placeholder {
+    input::placeholder {
       color: #555;
     }
 
-    .setting__input:hover {
+    input:hover {
       background: #1a1a1a;
     }
 
-    .setting__input:focus {
+    input:focus {
       border-color: #333;
       background: #1a1a1a;
 
       cursor: text;
     }
 
-    .setting__input--error,
-    .setting__input--error:focus {
+    .error,
+    .error:focus {
       border-color: #941919;
     }
 
-  .setting--color {
+  .color {
     flex: 5;
     align-items: center;
     justify-content: flex-start;
@@ -448,13 +474,14 @@
     background: #fff;
 
     transition: var(--transition);
+    cursor: pointer;
   }
 
-    .setting--color:focus-within {
+    .color:focus-within {
       border: .1rem solid #888;
     }
 
-  .setting__color {
+  .color-input {
     display: block;
 
     width: 100%;
@@ -466,7 +493,7 @@
     cursor: pointer;
   }
 
-  .settings__button {
+  .save-settings-button {
     display: block;
 
     width: 10rem;
@@ -474,77 +501,59 @@
     padding: 1rem;
     border-radius: .5rem;
 
-    border: .1rem solid transparent;
+    border: .1rem solid #444;
+    background: #333;
 
     font-size: 1.2rem;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
     text-align: center;
 
     transition: var(--transition);
     cursor: pointer;
   }
 
-  .settings__button--open {
-    display: inline-block;
-
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 0;
-    padding: 0;
-
-    opacity: .5;
-  }
-
-    .settings__button--open:hover {
-      opacity: .75;
-    }
-
-  .settings__icon {
-    transform: rotateZ(-720deg);
-    transition: var(--transition);
-  }
-
-    .settings__icon:hover {
-      transform: rotateZ(720deg);
-     }
-
-  .settings__button--save {
-    border-color: #444;
-    background: #333;
-
-    text-transform: uppercase;
-    letter-spacing: .1rem;
-  }
-
-    .settings__button--save:hover {
+    .save-settings-button:hover {
       background: #444;
     }
 
-  .settings__button--cancel {
+  .cancel-settings-button {
     position: relative;
 
+    display: block;
+
     width: fit-content;
+    margin: 0 auto 3rem auto;
     padding: 0 0 .2rem 0;
-    border-radius: 0;
 
-    border: 0;
+    border: .1rem solid transparent;
 
+    font-size: 1.2rem;
     text-transform: uppercase;
+    text-align: center;
+
+    transition: var(--transition);
+    cursor: pointer;
   }
 
-    .settings__button--cancel::before {
+    .cancel-settings-button::before {
       content: '';
+
       position: absolute;
       left: 50%;
       bottom: 0;
+
       width: 100%;
       height: 1px;
+
       background-color: #fff;
+
       transform-origin: center;
       transform: translate(-50%, 0) scaleX(0);
       transition: var(--transition);
     }
 
-    .settings__button--cancel:hover::before {
+    .cancel-settings-button:hover::before {
       transform: translate(-50%, 0) scaleX(1);
     }
 
@@ -555,11 +564,11 @@
       --transition: 0s;
     }
 
-    .weather__loading {
+    .weather-loading {
       visibility: hidden;
     }
 
-    .settings {
+    .settings-panel {
       scroll-behavior: auto;
     }
   }

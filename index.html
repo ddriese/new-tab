@@ -9,36 +9,36 @@
   </head>
 
   <body>
-    <header class="top_bar">
-      <div class="top_bar__wrapper">
+    <header class="top-bar">
+      <div class="top-bar-wrapper left">
         <div class="weather">
-          <div class="weather__status"></div>
-          <div class="weather__temperature"></div>
+          <div class="weather-status"></div>
+          <div class="weather-temperature"></div>
         </div>
       </div>
-      <div class="top_bar__wrapper top_bar__wrapper--search">
+      <div class="top-bar-wrapper middle">
         <form class="search">
           <input
-            class="search__input"
-            name="search__input"
+            class="search-input"
+            name="search-input"
             type="text"
             autocomplete="off"
             spellcheck="false"
             placeholder="search">
-          <a class="search__button"></a>
+          <a class="search-button"></a>
         </form>
       </div>
-      <div class="top_bar__wrapper top_bar__wrapper--settings">
-        <a class="settings__button settings__button--open"><img class="settings__icon" src="/images/ui/settings.svg"></a>
+      <div class="top-bar-wrapper right">
+        <a class="open-settings-button"><img class="settings-icon" src="/images/ui/settings.svg"></a>
       </div>
     </header>
 
     <main>
       <template>
         <div class="thumbnail">
-          <a class="thumbnail__link" href="">
-            <img class="thumbnail__image" src="" alt="">
-            <div class="thumbnail__caption"></div>
+          <a class="thumbnail-link" href="">
+            <img class="thumbnail-image" src="" alt="">
+            <div class="thumbnail-caption"></div>
           </a>
         </div>
       </template>
@@ -47,153 +47,168 @@
     </main>
 
     <section class="preview">
-      <div class="preview__divider"></div>
-      <img class="preview__image" src="/images/ui/placeholder.png" alt="">
+      <div class="preview-divider"></div>
+      <img class="preview-image" src="/images/ui/placeholder.png" alt="Placeholder Image">
     </section>
 
-    <section class="settings">
-      <div class="settings__wrapper">
+    <section class="settings-panel">
+      <div class="settings">
 
-        <div class="settings__weather">
-          <div class="setting setting--weather">
-            <h2 class="settings__heading">Weather</h2>
-            <div class="weather__wrapper">
-              <input id="weather__toggle" type="checkbox">
-              <label for="weather__toggle" class="weather__switch"></label>
+        <div class="weather-settings">
+          <div class="heading">
+            <h1>Weather</h1>
+            <div>
+              <input id="weather-toggle" type="checkbox">
+              <label for="weather-toggle" class="weather-switch"></label>
             </div>
           </div>
 
           <div class="setting">
-              <label class="setting__label" for="setting__input--latitude">Latitude:</label>
-              <input class="setting__input setting__input--latitude" type="text" placeholder="Optional">
+              <label for="latitude">Latitude:</label>
+              <input class="latitude" type="text" placeholder="Optional">
           </div>
           <div class="setting">
-              <label class="setting__label" for="setting__input--longitude">Longitude:</label>
-              <input class="setting__input setting__input--longitude" type="text" placeholder="Optional">
+              <label for="longitude">Longitude:</label>
+              <input class="longitude" type="text" placeholder="Optional">
           </div>
           <div class="setting">
-              <label class="setting__label" for="setting__input--key"><a href="https://darksky.net/dev/register" target="_blank">API Key:</a></label>
-              <input class="setting__input setting__input--key" type="text" placeholder="Required if weather is enabled." required>
+              <label for="key"><a href="https://darksky.net/dev/register" target="_blank">API Key:</a></label>
+              <input class="key" type="text" placeholder="Required if weather is enabled." required>
           </div>
         </div>
 
-        <div class="settings__site">
-          <h2 class="settings__heading">Site One</h2>
+        <div class="site-settings">
+          <h1>Site One</h1>
 
           <div class="setting">
-            <label class="setting__label" for="setting__input--name">Name:</label>
-            <input class="setting__input setting__input--name" type="text" required>
+            <label for="site-name">Name:</label>
+            <input class="site-name" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--url">URL:</label>
-            <input class="setting__input setting__input--url" type="text" required>
+            <label for="site-url">URL:</label>
+            <input class="site-url" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--image">Image:</label>
-            <input class="setting__input setting__input--image" type="text" required placeholder="e.g., reddit.jpg">
+            <label for="site-image">Image:</label>
+            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--color">Color:</label>
-            <div class="setting setting--color">
-              <input class="setting__color" type="color" name="" id="" value="#ffffff">
+            <label for="site-color">Color:</label>
+            <div class="color">
+              <input class="color-input" type="color" name="" id="" value="#777777">
             </div>
           </div>
         </div>
 
-        <div class="settings__site">
-          <h2 class="settings__heading">Site Two</h2>
+        <div class="site-settings">
+          <h1>Site Two</h1>
 
           <div class="setting">
-            <label class="setting__label" for="setting__input--name">Name:</label>
-            <input class="setting__input setting__input--name" type="text" required>
+            <label for="site-name">Name:</label>
+            <input class="site-name" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--url">URL:</label>
-            <input class="setting__input setting__input--url" type="text" required>
+            <label for="site-url">URL:</label>
+            <input class="site-url" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--image">Image:</label>
-            <input class="setting__input setting__input--image" type="text" required placeholder="e.g., reddit.jpg">
+            <label for="site-image">Image:</label>
+            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--color">Color:</label>
-            <div class="setting setting--color">
-              <input class="setting__color" type="color" name="" id="" value="#ffffff">
+            <label for="site-color">Color:</label>
+            <div class="color">
+              <input class="color-input" type="color" name="" id="" value="#777777">
             </div>
           </div>
         </div>
 
-        <div class="settings__site">
-          <h2 class="settings__heading">Site Three</h2>
+        <div class="site-settings">
+          <h1>Site Three</h1>
 
           <div class="setting">
-            <label class="setting__label" for="setting__input--name">Name:</label>
-            <input class="setting__input setting__input--name" type="text" required>
+            <label for="site-name">Name:</label>
+            <input class="site-name" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--url">URL:</label>
-            <input class="setting__input setting__input--url" type="text" required>
+            <label for="site-url">URL:</label>
+            <input class="site-url" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--image">Image:</label>
-            <input class="setting__input setting__input--image" type="text" required placeholder="e.g., reddit.jpg">
+            <label for="site-image">Image:</label>
+            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--color">Color:</label>
-            <div class="setting setting--color">
-              <input class="setting__color" type="color" name="" id="" value="#ffffff">
+            <label for="site-color">Color:</label>
+            <div class="color">
+              <input class="color-input" type="color" name="" id="" value="#777777">
             </div>
           </div>
         </div>
 
-        <div class="settings__site">
-          <h2 class="settings__heading">Site Four</h2>
+        <div class="site-settings">
+          <h1>Site Four</h1>
 
           <div class="setting">
-            <label class="setting__label" for="setting__input--name">Name:</label>
-            <input class="setting__input setting__input--name" type="text" required>
+            <label for="site-name">Name:</label>
+            <input class="site-name" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--url">URL:</label>
-            <input class="setting__input setting__input--url" type="text" required>
+            <label for="site-url">URL:</label>
+            <input class="site-url" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--image">Image:</label>
-            <input class="setting__input setting__input--image" type="text" required placeholder="e.g., reddit.jpg">
+            <label for="site-image">Image:</label>
+            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--color">Color:</label>
-            <div class="setting setting--color">
-              <input class="setting__color" type="color" name="" id="" value="#ffffff">
+            <label for="site-color">Color:</label>
+            <div class="color">
+              <input class="color-input" type="color" name="" id="" value="#777777">
             </div>
           </div>
         </div>
 
-        <div class="settings__site">
-          <h2 class="settings__heading">Site Five</h2>
+        <div class="site-settings">
+          <h1>Site Five</h1>
 
           <div class="setting">
-            <label class="setting__label" for="setting__input--name">Name:</label>
-            <input class="setting__input setting__input--name" type="text" required>
+            <label for="site-name">Name:</label>
+            <input class="site-name" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--url">URL:</label>
-            <input class="setting__input setting__input--url" type="text" required>
+            <label for="site-url">URL:</label>
+            <input class="site-url" type="text" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--image">Image:</label>
-            <input class="setting__input setting__input--image" type="text" required placeholder="e.g., reddit.jpg">
+            <label for="site-image">Image:</label>
+            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
           </div>
+
           <div class="setting">
-            <label class="setting__label" for="setting__input--color">Color:</label>
-            <div class="setting setting--color">
-              <input class="setting__color" type="color" name="" id="" value="#ffffff">
+            <label for="site-color">Color:</label>
+            <div class="color">
+              <input class="color-input" type="color" name="" id="" value="#777777">
             </div>
           </div>
         </div>
 
-        <a class="settings__button settings__button--save">Save</a>
-        <a class="settings__button settings__button--cancel">Cancel</a>
+        <a class="save-settings-button">Save</a>
+        <a class="cancel-settings-button">Cancel</a>
 
       </div>
     </section>
