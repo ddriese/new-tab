@@ -7,7 +7,7 @@
 
 ![New Tab](https://imgur.com/tFlxDeO.png)
 ![New Tab Preview](https://imgur.com/FfkjHyv.png)
-![New Tab Settings](https://imgur.com/31IIVfj.png)
+![New Tab Settings](https://imgur.com/Y5KZ7PD.png)
 
 ## Installation
 

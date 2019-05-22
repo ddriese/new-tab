@@ -562,6 +562,10 @@
       background: #202020;
     }
 
+    .add-site-button:hover {
+      color: #777;
+    }
+
   .save-settings-button {
     border-color: #2f2f2f;
     background: #282828;
