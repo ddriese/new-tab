@@ -57,12 +57,6 @@
     text-align: right;
   }
 
-  @media only screen and (max-width: 800px) {
-    .top-bar-wrapper.middle {
-      flex: 2;
-    }
-  }
-
   .weather {
     display: flex;
     flex-flow: row wrap;
@@ -322,20 +316,23 @@
     overflow: scroll;
     scroll-behavior: smooth;
     transition: var(--transition);
+    z-index: 10;
     cursor: default;
   }
 
-    .settings-panel a { color: #ccc; }
-
   .settings {
-    width: 40%;
+    width: 35%;
+    min-height: calc(100% - 11rem);
     margin: 0 auto;
   }
 
   .weather-settings,
   .site-settings {
-    margin-bottom: 3rem;
-    padding: 3rem;
+    margin-bottom: 9rem;
+  }
+
+  .site-settings {
+    transition: var(--transition);
   }
 
   .heading {
@@ -346,12 +343,19 @@
     margin-top: 3rem;
   }
 
-  h1 {
+  h1, h2 {
     margin: 0;
 
+    letter-spacing: .2rem;
+  }
+
+  h1 {
     font-size: 1.8rem;
     text-transform: uppercase;
-    letter-spacing: .2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
   }
 
   #weather-toggle {
@@ -377,13 +381,15 @@
     height: 2.5rem;
     border-radius: 2.5rem;
 
-    background-color: #222;
+    background-color: #1a1a1a;
 
     transition: var(--transition);
     cursor: pointer;
   }
 
   .weather-switch::after {
+    content: '';
+
     position: absolute;
     top: .1rem;
     left: .1rem;
@@ -392,14 +398,13 @@
     height: 2.3rem;
     border-radius: 2.3rem;
 
-    background-color: #fff;
-
-    content: '';
+    background-color: #2a2a2a;
 
     transition: var(--transition);
   }
 
   #weather-toggle:checked + .weather-switch::after {
+    background-color: #1a1a1a;
     transform: translateX(2.5rem);
   }
 
@@ -422,6 +427,8 @@
 
     font-size: 1.2rem;
   }
+
+    label a { color: #ccc; }
 
   input {
     flex: 5;
@@ -471,7 +478,7 @@
     border-radius: .5rem;
 
     border: .1rem solid transparent;
-    background: #fff;
+    background: #777;
 
     transition: var(--transition);
     cursor: pointer;
@@ -492,6 +499,91 @@
     opacity: 0;
     cursor: pointer;
   }
+
+  .settings-toolbar {
+    position: sticky;
+    bottom: 0;
+
+    width: 100%;
+    height: 8rem;
+    margin: 0 auto;
+
+    border: 1px solid #222;
+    background: #111;
+  }
+
+  .settings-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 35%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .add-site-button,
+  .remove-site-button,
+  .save-settings-button,
+  .cancel-settings-button {
+    padding: 1rem;
+    border-radius: .5rem;
+
+    border: 1px solid #202020;
+    background: #161616;
+    color: #555;
+
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+    .remove-site-button:hover {
+      border-color: #c71414;
+      background: #c71414;
+      color: #ccc;
+    }
+
+  .add-site-button,
+  .cancel-settings-button,
+  .save-settings-button {
+    width: 10rem;
+
+    text-align: center;
+  }
+
+    .add-site-button:hover,
+    .cancel-settings-button:hover,
+    .save-settings-button:hover {
+      background: #202020;
+    }
+
+  .save-settings-button {
+    border-color: #2f2f2f;
+    background: #282828;
+    color: #777;
+  }
+
+    .save-settings-button:hover {
+      background: #2f2f2f;
+    }
+
+  /* .add-site-button {
+    display: block;
+
+    margin: 0 auto 5rem auto;
+
+    text-align: center;
+  }
+
+    .add-site-button:hover {
+      border-color: #54a138;
+      background: #54a138;
+    }
 
   .save-settings-button {
     display: block;
@@ -555,9 +647,19 @@
 
     .cancel-settings-button:hover::before {
       transform: translate(-50%, 0) scaleX(1);
+    } */
+
+/* Media Queries */
+
+  @media only screen and (max-width: 800px) {
+    .top-bar-wrapper.middle {
+      flex: 2;
     }
 
-/* Reduced Motion Support */
+    .settings {
+      width: 80%;
+    }
+  }
 
   @media ( prefers-reduced-motion: reduce ) {
     :root {

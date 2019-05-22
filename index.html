@@ -33,18 +33,16 @@
       </div>
     </header>
 
-    <main>
-      <template>
-        <div class="thumbnail">
-          <a class="thumbnail-link" href="">
-            <img class="thumbnail-image" src="" alt="">
-            <div class="thumbnail-caption"></div>
-          </a>
-        </div>
-      </template>
+    <main class="thumbnails"></main>
 
-      <section class="thumbnails"></section>
-    </main>
+    <template class="thumbnail-template">
+      <div class="thumbnail">
+        <a class="thumbnail-link" href="">
+          <img class="thumbnail-image" src="" alt="">
+          <div class="thumbnail-caption"></div>
+        </a>
+      </div>
+    </template>
 
     <section class="preview">
       <div class="preview-divider"></div>
@@ -77,139 +75,48 @@
           </div>
         </div>
 
-        <div class="site-settings">
-          <h1>Site One</h1>
+        <template class="site-settings-template">
+          <div class="site-settings">
+            <div class="heading">
+              <h2></h2>
+              <a class="remove-site-button">Remove</a>
+            </div>
 
-          <div class="setting">
-            <label for="site-name">Name:</label>
-            <input class="site-name" type="text" required>
-          </div>
+            <div class="setting">
+              <label for="site-name">Name:</label>
+              <input class="site-name" type="text" required>
+            </div>
 
-          <div class="setting">
-            <label for="site-url">URL:</label>
-            <input class="site-url" type="text" required>
-          </div>
+            <div class="setting">
+              <label for="site-url">URL:</label>
+              <input class="site-url" type="text" required>
+            </div>
 
-          <div class="setting">
-            <label for="site-image">Image:</label>
-            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
-          </div>
+            <div class="setting">
+              <label for="site-image">Image:</label>
+              <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
+            </div>
 
-          <div class="setting">
-            <label for="site-color">Color:</label>
-            <div class="color">
-              <input class="color-input" type="color" name="" id="" value="#777777">
+            <div class="setting">
+              <label for="site-color">Color:</label>
+              <div class="color">
+                <input class="color-input" type="color" name="" id="" value="#777777">
+              </div>
             </div>
           </div>
+        </template>
+
+        <h1>Sites</h1>
+
+        <div class="sites"></div>
+      </div>
+
+      <div class="settings-toolbar">
+        <div class="settings-actions">
+          <a class="cancel-settings-button">Cancel</a>
+          <a class="add-site-button">+ Add Site</a>
+          <a class="save-settings-button">Save</a>
         </div>
-
-        <div class="site-settings">
-          <h1>Site Two</h1>
-
-          <div class="setting">
-            <label for="site-name">Name:</label>
-            <input class="site-name" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-url">URL:</label>
-            <input class="site-url" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-image">Image:</label>
-            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-color">Color:</label>
-            <div class="color">
-              <input class="color-input" type="color" name="" id="" value="#777777">
-            </div>
-          </div>
-        </div>
-
-        <div class="site-settings">
-          <h1>Site Three</h1>
-
-          <div class="setting">
-            <label for="site-name">Name:</label>
-            <input class="site-name" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-url">URL:</label>
-            <input class="site-url" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-image">Image:</label>
-            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-color">Color:</label>
-            <div class="color">
-              <input class="color-input" type="color" name="" id="" value="#777777">
-            </div>
-          </div>
-        </div>
-
-        <div class="site-settings">
-          <h1>Site Four</h1>
-
-          <div class="setting">
-            <label for="site-name">Name:</label>
-            <input class="site-name" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-url">URL:</label>
-            <input class="site-url" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-image">Image:</label>
-            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-color">Color:</label>
-            <div class="color">
-              <input class="color-input" type="color" name="" id="" value="#777777">
-            </div>
-          </div>
-        </div>
-
-        <div class="site-settings">
-          <h1>Site Five</h1>
-
-          <div class="setting">
-            <label for="site-name">Name:</label>
-            <input class="site-name" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-url">URL:</label>
-            <input class="site-url" type="text" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-image">Image:</label>
-            <input class="site-image" type="text" placeholder="e.g., reddit.jpg" required>
-          </div>
-
-          <div class="setting">
-            <label for="site-color">Color:</label>
-            <div class="color">
-              <input class="color-input" type="color" name="" id="" value="#777777">
-            </div>
-          </div>
-        </div>
-
-        <a class="save-settings-button">Save</a>
-        <a class="cancel-settings-button">Cancel</a>
-
       </div>
     </section>
 

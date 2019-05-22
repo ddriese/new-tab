@@ -4,79 +4,59 @@ const $search_input = document.querySelector('.search-input'),
       $weather_temperature = document.querySelector('.weather-temperature'),
       $thumbnails = document.querySelector('.thumbnails'),
       $settings_panel = document.querySelector('.settings-panel'),
+      $site_settings_template = document.querySelector('.site-settings-template').content,
 
-search = () => {
-  let query = $search_input.value.split(' ').join('+');
-  window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
-},
-
-get_coordinates = (latitude, longitude, callback) => {
-  if (latitude && longitude) {
-    callback(latitude, longitude);
-  }
-  else {
-    fetch('https://geoip-db.com/json/').then(response => {
-      return response.json();
-    }).then(location => {
-      callback(location.latitude, location.longitude);
-    });
-  }
-},
-
-load_weather = settings => {
+display_weather = async settings => {
   if (settings) {
     if ('weather' in settings) {
-      if (settings.weather.enabled) {
-        const proxy = 'https://cors-anywhere.herokuapp.com/';
+      const { enabled, latitude, longitude, key } = settings.weather;
 
+      if (enabled) {
         $weather.title = 'Loading Weather...';
         $weather_status.innerHTML = '<div class="loading-icon"></div>';
 
-        get_coordinates(settings.weather.latitude, settings.weather.longitude, (latitude, longitude) => {
-          fetch(`${proxy}https://api.darksky.net/forecast/${settings.weather.key}/${latitude},${longitude}`).then(response => {
-            return response.json();
-          }).then(data => {
-            const { icon, temperature } = data.currently,
-                  { summary } = data.minutely;
+        const coordinates = await get_coordinates(latitude, longitude),
+              weather_data = await load_weather(coordinates.latitude, coordinates.longitude, key),
+              { icon, temperature } = weather_data.currently,
+              { summary } = weather_data.minutely,
+              $weather_icon = document.createElement('img');
 
-            $weather.title = summary;
-            $weather_temperature.textContent = `${Math.round(temperature)} °`;
-            $weather_temperature.style.visibility = 'visible';
-            $weather_temperature.style.opacity = 1;
+        $weather.title = summary;
+        $weather_temperature.textContent = `${Math.round(temperature)} °`;
+        $weather_temperature.style.visibility = 'visible';
+        $weather_temperature.style.opacity = 1;
 
-            switch(icon) {
-              case 'cloudy':
-              case 'fog':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/cloudy.svg" alt="Cloudy">';
-                break;
-              case 'rain':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/rain.svg" alt="Rain">';
-                break;
-              case 'snow':
-              case 'sleet':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/snow.svg" alt="Snow / Sleet">';
-                break;
-              case 'partly-cloudy-day':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/partly-cloudy-day.svg" alt="Partly Cloudy">';
-                break;
-              case 'partly-cloudy-night':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/partly-cloudy-night.svg" alt="Partly Cloudy">';
-                break;
-              case 'clear-night':
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/clear-night.svg" alt="Clear Skies">';
-                break;
-              default:
-                $weather_status.innerHTML =
-                  '<img class="weather-icon" src="/images/ui/weather/clear-day.svg" alt="Clear Skies">';
-            }
-          });
-        });
+        $weather_icon.classList.add('weather-icon');
+        $weather_icon.src = '/images/ui/weather/';
+
+        switch(icon) {
+          case 'cloudy':
+            $weather_icon.src += 'cloudy.svg';
+            break;
+          case 'fog':
+            $weather_icon.src += 'fog.svg';
+            break;
+          case 'rain':
+            $weather_icon.src += 'rain.svg';
+            break;
+          case 'snow':
+          case 'sleet':
+            $weather_icon.src += 'snow.svg';
+            break;
+          case 'partly-cloudy-day':
+            $weather_icon.src += 'partly-cloudy-day.svg';
+            break;
+          case 'partly-cloudy-night':
+            $weather_icon.src += 'partly-cloudy-night.svg';
+            break;
+          case 'clear-night':
+            $weather_icon.src += 'clear-night.svg';
+            break;
+          default:
+            $weather_icon.src += 'clear-day.svg';
+        }
+
+        $weather_status.replaceChild($weather_icon, document.querySelector('.loading-icon'));
       }
       else {
         $weather_status.textContent = '';
@@ -86,11 +66,42 @@ load_weather = settings => {
   }
 },
 
-load_thumbnails = settings => {
+get_coordinates = (latitude, longitude) => {
+  return new Promise(resolve => {
+    const coordinates = [];
+
+    if (latitude && longitude) {
+      coordinates.latitude = latitude;
+      coordinates.longitude = longitude;
+      resolve(coordinates);
+    }
+    else {
+      fetch('https://geoip-db.com/json/').then(response => {
+        return response.json();
+      }).then(location => {
+        coordinates.latitude = location.latitude;
+        coordinates.longitude = location.longitude;
+        resolve(coordinates);
+      });
+    }
+  });
+},
+
+load_weather = (latitude, longitude, key) => {
+  return new Promise(resolve => {
+    const proxy = 'https://cors-anywhere.herokuapp.com/';
+
+    fetch(`${proxy}https://api.darksky.net/forecast/${key}/${latitude},${longitude}`).then(response => {
+      resolve(response.json());
+    });
+  });
+}
+
+display_thumbnails = settings => {
   if (settings) {
     if ('sites' in settings) {
       settings.sites.forEach((site, index) => {
-        const $thumbnail = document.importNode(document.querySelector('template').content, true).querySelector('.thumbnail'),
+        const $thumbnail = document.importNode(document.querySelector('.thumbnail-template').content, true).querySelector('.thumbnail'),
               $thumbnail_link = $thumbnail.querySelector('.thumbnail-link'),
               $thumbnail_image = $thumbnail.querySelector('.thumbnail-image'),
               $thumbnail_caption = $thumbnail.querySelector('.thumbnail-caption'),
@@ -147,6 +158,120 @@ load_thumbnails = settings => {
   }
 },
 
+search = () => {
+  let query = $search_input.value.split(' ').join('+');
+  window.location.href = `https://www.startpage.com/do/dsearch?query=${query}&cat=web&pl=opensearch&language=english`;
+},
+
+show_settings = () => {
+  document.querySelectorAll('.error').forEach($field => {
+    $field.classList.remove('error');
+  });
+
+  $settings_panel.style.visibility = 'visible';
+  $settings_panel.style.opacity = 1;
+},
+
+add_new_site = () => {
+  const $site_settings = document.importNode($site_settings_template, true).querySelector('.site-settings');
+
+  $site_settings.querySelector('h2').innerText = 'New Site';
+  document.querySelector('.sites').appendChild($site_settings);
+  $settings_panel.scrollTop = $site_settings.offsetTop + $site_settings.clientHeight;
+
+  add_color_picker_listener($site_settings);
+  count_sites();
+},
+
+count_sites = () => {
+  if (document.querySelectorAll('.site-settings').length < 5) {
+    document.querySelector('.add-site-button').style.opacity = 1;
+    document.querySelector('.add-site-button').style.visibility = 'visible';
+
+    if (document.querySelectorAll('.site-settings').length == 0) {
+      add_new_site();
+    }
+  }
+  else {
+    document.querySelector('.add-site-button').style.opacity = 0;
+    document.querySelector('.add-site-button').style.visibility = 'hidden';
+  }
+},
+
+add_color_picker_listener = $site_settings => {
+  $site_settings.querySelector('.color-input').addEventListener('change', () => {
+    $site_settings.querySelector('.color').style.background = $site_settings.querySelector('.color-input').value;
+  });
+},
+
+close_settings = () => {
+  $settings_panel.style.visibility = 'hidden';
+  $settings_panel.style.opacity = 0;
+  Settings.load();
+  setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
+},
+
+save_settings = () => {
+  let validation_error = false;
+
+  const settings = new Settings(),
+        $weather_settings = document.querySelector('.weather-settings'),
+        empty_fields = $weather_settings.querySelectorAll(':invalid').length,
+        weather = {
+          'enabled': document.querySelector('#weather-toggle').checked,
+          'latitude': $weather_settings.querySelector('.latitude').value,
+          'longitude': $weather_settings.querySelector('.longitude').value,
+          'key': $weather_settings.querySelector('.key').value,
+        };
+
+  document.querySelectorAll('.error').forEach($field => {
+    $field.classList.remove('error');
+  });
+
+  if (document.querySelector('#weather-toggle').checked) {
+    if (!empty_fields) {
+      settings.add_weather(weather);
+    }
+    else {
+      $weather_settings.querySelectorAll(':invalid').forEach($field => {
+        $field.classList.add('error');
+      });
+      validation_error = true;
+    }
+  }
+  else {
+    settings.add_weather(weather);
+  }
+
+  document.querySelectorAll('.site-settings').forEach($site_settings => {
+    const fields = $site_settings.querySelectorAll('input[type=text]').length,
+          empty_fields = $site_settings.querySelectorAll(':invalid').length,
+          site = {
+            'name': $site_settings.querySelector('.site-name').value,
+            'url': $site_settings.querySelector('.site-url').value,
+            'image': $site_settings.querySelector('.site-image').value,
+            'color': $site_settings.querySelector('.color-input').value
+          };
+
+    if (!empty_fields) {
+      settings.add_site(site);
+    }
+    else if (empty_fields > 0 && empty_fields < fields) {
+      $site_settings.querySelectorAll(':invalid').forEach(field => {
+        field.classList.add('error');
+      });
+      validation_error = true;
+    }
+  });
+
+  if (!validation_error) {
+    settings.save();
+  }
+  else {
+    $settings_panel.scrollTop = $settings_panel.offsetTop + document.querySelector('.error').offsetTop - 50;
+  }
+},
+
 Settings = class {
   constructor() {
     this.sites = [];
@@ -163,11 +288,9 @@ Settings = class {
   save() {
     chrome.storage.local.set({ new_tab_settings: this }, () => {
       $thumbnails.innerHTML = '';
-      Settings.load(settings => {
-        load_weather(settings);
-        load_thumbnails(settings);
-        close_settings();
-      });
+      display_weather(this);
+      display_thumbnails(this);
+      close_settings();
     });
   }
 
@@ -184,125 +307,38 @@ Settings = class {
         }
 
         if ('sites' in settings) {
-          settings.sites.forEach((site, index) => {
-            document.querySelectorAll('.site-settings')[index].querySelector('.site-name').value = site.name;
-            document.querySelectorAll('.site-settings')[index].querySelector('.site-url').value = site.url;
-            document.querySelectorAll('.site-settings')[index].querySelector('.site-image').value = site.image;
-            document.querySelectorAll('.site-settings')[index].querySelector('.color-input').value = site.color;
-          });
+          document.querySelector('.sites').innerHTML = '';
 
-          document.querySelectorAll('.color').forEach($color_container => {
-            $color_container.style.backgroundColor = $color_container.querySelector('.color-input').value;
+          settings.sites.forEach((site) => {
+            const $site_settings = document.importNode($site_settings_template, true).querySelector('.site-settings');
+
+            $site_settings.querySelector('h2').innerText = site.name;
+            $site_settings.querySelector('.site-name').value = site.name;
+            $site_settings.querySelector('.site-url').value = site.url;
+            $site_settings.querySelector('.site-image').value = site.image;
+            $site_settings.querySelector('.color-input').value = site.color;
+            $site_settings.querySelector('.color').style.background = site.color;
+
+            document.querySelector('.sites').appendChild($site_settings);
+
+            add_color_picker_listener($site_settings);
           });
         }
       }
 
-      callback(settings);
+      count_sites();
+
+      typeof callback === 'function' && callback(settings);
     });
-  }
-},
-
-Weather = class {
-  constructor(enabled, latitude, longitude, key) {
-    this.enabled = enabled;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.key = key;
-  }
-},
-
-Site = class {
-  constructor(name, url, image, color) {
-    this.name = name;
-    this.url = url;
-    this.color = color;
-    this.image = image;
-  }
-},
-
-show_settings = () => {
-  Settings.load(() => {
-    document.querySelectorAll('.error').forEach($field => {
-      $field.classList.remove('error');
-    });
-
-    $settings_panel.style.visibility = 'visible';
-    $settings_panel.style.opacity = 1;
-  });
-},
-
-close_settings = () => {
-  $settings_panel.style.visibility = 'hidden';
-  $settings_panel.style.opacity = 0;
-  setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
-},
-
-save_settings = () => {
-  let error = false;
-
-  const settings = new Settings(),
-        $weather_settings = document.querySelector('.weather-settings'),
-        empty_fields = $weather_settings.querySelectorAll(':invalid').length,
-        weather = new Weather(
-          document.querySelector('#weather-toggle').checked,
-          $weather_settings.querySelector('.latitude').value,
-          $weather_settings.querySelector('.longitude').value,
-          $weather_settings.querySelector('.key').value,
-        );
-
-  document.querySelectorAll('.error').forEach($field => {
-    $field.classList.remove('error');
-  });
-
-  if (document.querySelector('#weather-toggle').checked) {
-    if (!empty_fields) {
-      settings.add_weather(weather);
-    }
-    else {
-      $weather_settings.querySelectorAll(':invalid').forEach($field => {
-        $field.classList.add('error');
-      });
-      error = true;
-    }
-  }
-  else {
-    settings.add_weather(weather);
-  }
-
-  document.querySelectorAll('.site-settings').forEach($site_settings => {
-    const fields = $site_settings.querySelectorAll('input[type=text]').length,
-          empty_fields = $site_settings.querySelectorAll(':invalid').length,
-          site = new Site(
-            $site_settings.querySelector('.site-name').value,
-            $site_settings.querySelector('.site-url').value,
-            $site_settings.querySelector('.site-image').value,
-            $site_settings.querySelector('.color-input').value
-          );
-
-    if (!empty_fields) {
-      settings.add_site(site);
-    }
-    else if (empty_fields > 0 && empty_fields < fields) {
-      $site_settings.querySelectorAll(':invalid').forEach(field => {
-        field.classList.add('error');
-      });
-      error = true;
-    }
-  });
-
-  if (!error) {
-    settings.save();
-  }
-  else {
-    $settings_panel.scrollTop = $settings_panel.offsetTop + document.querySelector('.error').offsetTop - 50;
   }
 };
+
 
 // EVENT LISTENERS
 window.addEventListener('DOMContentLoaded', event => {
   Settings.load((settings) => {
-    load_weather(settings);
-    load_thumbnails(settings);
+    display_weather(settings);
+    display_thumbnails(settings);
   });
 
   // Search
@@ -358,12 +394,26 @@ window.addEventListener('DOMContentLoaded', event => {
     }
   });
 
-  // Miscellaneous
-  document.querySelectorAll('.color').forEach($color_container => {
-    $color_container.style.backgroundColor = $color_container.querySelector('.color-input').value;
+  // Add a Site to Settings Panel
+  document.querySelector('.add-site-button').addEventListener('click', () => {
+    if (document.querySelectorAll('.site-settings').length < 5) {
+      add_new_site();
+    }
+  });
 
-    $color_container.querySelector('.color-input').addEventListener('change', event => {
-      $color_container.style.backgroundColor = event.target.value;
-    });
+  // Remove a Site from Settings Panel
+  document.body.addEventListener('click', event => {
+    if (event.target.classList.contains('remove-site-button')) {
+      document.querySelectorAll('.site-settings').forEach($site_settings => {
+        if ($site_settings.contains(event.target)) {
+          $site_settings.style.opacity = 0;
+
+          setTimeout(() => {
+            $site_settings.remove();
+            count_sites();
+          }, 350);
+        }
+      });
+    }
   });
 });
