@@ -68,20 +68,14 @@ display_weather = async settings => {
 
 get_coordinates = (latitude, longitude) => {
   return new Promise(resolve => {
-    const coordinates = [];
-
     if (latitude && longitude) {
-      coordinates.latitude = latitude;
-      coordinates.longitude = longitude;
-      resolve(coordinates);
+      resolve({latitude: latitude, longitude: longitude});
     }
     else {
       fetch('https://geoip-db.com/json/').then(response => {
         return response.json();
       }).then(location => {
-        coordinates.latitude = location.latitude;
-        coordinates.longitude = location.longitude;
-        resolve(coordinates);
+        resolve({latitude: location.latitude, longitude: location.longitude});
       });
     }
   });
@@ -207,8 +201,12 @@ add_color_picker_listener = $site_settings => {
 close_settings = () => {
   $settings_panel.style.visibility = 'hidden';
   $settings_panel.style.opacity = 0;
-  Settings.load();
   setTimeout(() => { $settings_panel.scrollTop = 0; }, 500);
+},
+
+cancel_settings = () => {
+  close_settings();
+  Settings.load();
 },
 
 save_settings = () => {
@@ -294,49 +292,50 @@ Settings = class {
     });
   }
 
-  static load(callback) {
-    chrome.storage.local.get(['new_tab_settings'], result => {
-      const settings = result.new_tab_settings;
+  static load() {
+    return new Promise(resolve => {
+      chrome.storage.local.get(['new_tab_settings'], result => {
+        const settings = result.new_tab_settings;
 
-      if (settings) {
-        if ('weather' in settings) {
-          document.querySelector('#weather-toggle').checked = settings.weather.enabled;
-          document.querySelector('.latitude').value = settings.weather.latitude;
-          document.querySelector('.longitude').value = settings.weather.longitude;
-          document.querySelector('.key').value = settings.weather.key;
+        if (settings) {
+          if ('weather' in settings) {
+            document.querySelector('#weather-toggle').checked = settings.weather.enabled;
+            document.querySelector('.latitude').value = settings.weather.latitude;
+            document.querySelector('.longitude').value = settings.weather.longitude;
+            document.querySelector('.key').value = settings.weather.key;
+          }
+
+          if ('sites' in settings) {
+            document.querySelector('.sites').innerHTML = '';
+
+            settings.sites.forEach((site) => {
+              const $site_settings = document.importNode($site_settings_template, true).querySelector('.site-settings');
+
+              $site_settings.querySelector('h2').innerText = site.name;
+              $site_settings.querySelector('.site-name').value = site.name;
+              $site_settings.querySelector('.site-url').value = site.url;
+              $site_settings.querySelector('.site-image').value = site.image;
+              $site_settings.querySelector('.color-input').value = site.color;
+              $site_settings.querySelector('.color').style.background = site.color;
+
+              document.querySelector('.sites').appendChild($site_settings);
+
+              add_color_picker_listener($site_settings);
+            });
+          }
         }
 
-        if ('sites' in settings) {
-          document.querySelector('.sites').innerHTML = '';
-
-          settings.sites.forEach((site) => {
-            const $site_settings = document.importNode($site_settings_template, true).querySelector('.site-settings');
-
-            $site_settings.querySelector('h2').innerText = site.name;
-            $site_settings.querySelector('.site-name').value = site.name;
-            $site_settings.querySelector('.site-url').value = site.url;
-            $site_settings.querySelector('.site-image').value = site.image;
-            $site_settings.querySelector('.color-input').value = site.color;
-            $site_settings.querySelector('.color').style.background = site.color;
-
-            document.querySelector('.sites').appendChild($site_settings);
-
-            add_color_picker_listener($site_settings);
-          });
-        }
-      }
-
-      count_sites();
-
-      typeof callback === 'function' && callback(settings);
+        count_sites();
+        resolve(settings);
+      });
     });
   }
 };
 
 
 // EVENT LISTENERS
-window.addEventListener('DOMContentLoaded', event => {
-  Settings.load((settings) => {
+window.addEventListener('DOMContentLoaded', () => {
+  Settings.load().then(settings => {
     display_weather(settings);
     display_thumbnails(settings);
   });
@@ -367,33 +366,6 @@ window.addEventListener('DOMContentLoaded', event => {
     show_settings();
   });
 
-  // Save Settings
-  document.querySelector('.save-settings-button').addEventListener('click', event => {
-    event.preventDefault();
-    save_settings();
-  });
-
-  document.addEventListener('keydown', key_pressed => {
-    if (key_pressed.target.nodeName == 'INPUT') {
-      if (key_pressed.keyCode == 13) {
-        key_pressed.preventDefault();
-        save_settings();
-      }
-    }
-  });
-
-  // Close Settings
-  document.querySelector('.cancel-settings-button').addEventListener('click', event => {
-    event.preventDefault();
-    close_settings();
-  });
-
-  document.addEventListener('keydown', key_pressed => {
-    if (key_pressed.keyCode == 27) {
-      close_settings();
-    }
-  });
-
   // Add a Site to Settings Panel
   document.querySelector('.add-site-button').addEventListener('click', () => {
     if (document.querySelectorAll('.site-settings').length < 5) {
@@ -414,6 +386,33 @@ window.addEventListener('DOMContentLoaded', event => {
           }, 350);
         }
       });
+    }
+  });
+
+  // Cancel Settings
+  document.querySelector('.cancel-settings-button').addEventListener('click', event => {
+    event.preventDefault();
+    cancel_settings();
+  });
+
+  document.addEventListener('keydown', key_pressed => {
+    if (key_pressed.keyCode == 27) {
+      cancel_settings();
+    }
+  });
+
+  // Save Settings
+  document.querySelector('.save-settings-button').addEventListener('click', event => {
+    event.preventDefault();
+    save_settings();
+  });
+
+  document.addEventListener('keydown', key_pressed => {
+    if (key_pressed.target.nodeName == 'INPUT') {
+      if (key_pressed.keyCode == 13) {
+        key_pressed.preventDefault();
+        save_settings();
+      }
     }
   });
 });
