@@ -425,6 +425,8 @@
   label {
     flex: 1;
 
+    min-width: fit-content;
+
     font-size: 1.2rem;
   }
 
@@ -576,92 +578,38 @@
       background: #2f2f2f;
     }
 
-  /* .add-site-button {
-    display: block;
-
-    margin: 0 auto 5rem auto;
-
-    text-align: center;
-  }
-
-    .add-site-button:hover {
-      border-color: #54a138;
-      background: #54a138;
-    }
-
-  .save-settings-button {
-    display: block;
-
-    width: 10rem;
-    margin: 0 auto 3rem auto;
-    padding: 1rem;
-    border-radius: .5rem;
-
-    border: .1rem solid #444;
-    background: #333;
-
-    font-size: 1.2rem;
-    letter-spacing: .1rem;
-    text-transform: uppercase;
-    text-align: center;
-
-    transition: var(--transition);
-    cursor: pointer;
-  }
-
-    .save-settings-button:hover {
-      background: #444;
-    }
-
-  .cancel-settings-button {
-    position: relative;
-
-    display: block;
-
-    width: fit-content;
-    margin: 0 auto 3rem auto;
-    padding: 0 0 .2rem 0;
-
-    border: .1rem solid transparent;
-
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    text-align: center;
-
-    transition: var(--transition);
-    cursor: pointer;
-  }
-
-    .cancel-settings-button::before {
-      content: '';
-
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-
-      width: 100%;
-      height: 1px;
-
-      background-color: #fff;
-
-      transform-origin: center;
-      transform: translate(-50%, 0) scaleX(0);
-      transition: var(--transition);
-    }
-
-    .cancel-settings-button:hover::before {
-      transform: translate(-50%, 0) scaleX(1);
-    } */
 
 /* Media Queries */
+
+  @media only screen and (max-width: 1275px) {
+    .settings,
+    .settings-actions {
+      width: 40%;
+    }
+  }
+
+  @media only screen and (max-width: 1070px) {
+    .settings,
+    .settings-actions {
+      width: 45%;
+    }
+  }
+
+  @media only screen and (max-width: 980px) {
+    .settings,
+    .settings-actions {
+      width: 55%;
+    }
+  }
 
   @media only screen and (max-width: 800px) {
     .top-bar-wrapper.middle {
       flex: 2;
     }
 
-    .settings {
-      width: 80%;
+    .settings,
+    .settings-actions {
+      width: 75%;
     }
   }
 
