@@ -89,7 +89,7 @@ load_weather = (latitude, longitude, key) => {
       resolve(response.json());
     });
   });
-}
+},
 
 display_thumbnails = settings => {
   if (settings) {
