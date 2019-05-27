@@ -172,6 +172,7 @@ add_new_site = () => {
   $site_settings.querySelector('h2').innerText = 'New Site';
   document.querySelector('.sites').appendChild($site_settings);
   $settings_panel.scrollTop = $site_settings.offsetTop + $site_settings.clientHeight;
+  $site_settings.querySelector('.site-name').focus();
 
   add_color_picker_listener($site_settings);
   count_sites();
